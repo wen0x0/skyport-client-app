@@ -33,6 +33,12 @@
       <version>${javafx.version}</version>
       <classifier>win</classifier>
     </dependency>
+    <!-- Logging -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.2.11</version>
+    </dependency>
 
   </dependencies>
 

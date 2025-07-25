@@ -7,8 +7,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class App extends Application {
+
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -21,9 +25,10 @@ public class App extends Application {
         primaryStage.setHeight(screenBounds.getHeight());
 
         primaryStage.setX((screenBounds.getWidth() - primaryStage.getWidth()) / 2);
-        primaryStage.setY(0); 
+        primaryStage.setY(0);
 
         primaryStage.show();
+        logger.info("UI loaded and shown.");
     }
 
     public static void main(String[] args) {

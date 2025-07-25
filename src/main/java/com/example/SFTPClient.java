@@ -10,13 +10,15 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SFTPClient {
-
     private final JSch jsch;
-    private Session session;
+    Session session;
     private ChannelSftp sftpChannel;
     private String knownHostsPath;
+    private static final Logger logger = LoggerFactory.getLogger(SFTPClient.class);
 
     public SFTPClient(String knownHostsPath) throws JSchException {
         this.jsch = new JSch();
@@ -58,9 +60,11 @@ public class SFTPClient {
         }
 
         jsch.setKnownHosts(this.knownHostsPath);
+        logger.info("SFTPClient initialized with knownHostsPath: {}", this.knownHostsPath);
     }
 
     public void connect(String username, String host, int port, String password) throws JSchException {
+        logger.info("Connecting to {}:{} as {}", host, port, username);
         session = jsch.getSession(username, host, port);
         session.setPassword(password);
 
@@ -104,17 +108,17 @@ public class SFTPClient {
         });
 
         session.connect();
-        System.out.println("Connected to " + host + ":" + port);
+        logger.info("Connected to {}:{}", host, port);
         // Save host key after successful connection
         try {
             saveHostKey();
         } catch (Exception e) {
-            System.out.println("Failed to save host key: " + e.getMessage());
+            logger.error("Failed to save host key: {}", e.getMessage());
         }
         // Open SFTP channel
         sftpChannel = (ChannelSftp) session.openChannel("sftp");
         sftpChannel.connect();
-        System.out.println("SFTP channel opened.");
+        logger.info("SFTP channel opened.");
     }
 
     private void saveHostKey() throws Exception {
@@ -128,7 +132,7 @@ public class SFTPClient {
             fw.write(entry);
         }
         setFilePermission600(knownHostsPath);
-        System.out.println("Host key saved to " + knownHostsPath);
+        logger.info("Host key saved to {}", knownHostsPath);
     }
 
     private void setFilePermission600(String path) throws IOException {
@@ -144,11 +148,11 @@ public class SFTPClient {
     public void disconnect() {
         if (sftpChannel != null && sftpChannel.isConnected()) {
             sftpChannel.disconnect();
-            System.out.println("SFTP channel disconnected.");
+            logger.info("SFTP channel disconnected.");
         }
         if (session != null && session.isConnected()) {
             session.disconnect();
-            System.out.println("Session disconnected.");
+            logger.info("Session disconnected.");
         }
     }
 
@@ -158,35 +162,39 @@ public class SFTPClient {
         return sftpChannel.ls(path);
     }
 
-    public void cd(String path) throws SftpException {
-        sftpChannel.cd(path);
-    }
-
     public String pwd() throws SftpException {
         return sftpChannel.pwd();
     }
 
-    public void mkdir(String path) throws SftpException {
-        sftpChannel.mkdir(path);
-    }
-
-    public void rm(String path) throws SftpException {
-        sftpChannel.rm(path);
-    }
-
-    public void get(String remote, String local) throws SftpException {
-        sftpChannel.get(remote, local);
+    public void cd(String path) throws SftpException {
+        sftpChannel.cd(path);
     }
 
     public void put(String local, String remote) throws SftpException {
         sftpChannel.put(local, remote);
     }
 
+    public void get(String remote, String local) throws SftpException {
+        sftpChannel.get(remote, local);
+    }
+
+    public void rm(String remote) throws SftpException {
+        sftpChannel.rm(remote);
+    }
+
+    public void rmdir(String remote) throws SftpException {
+        sftpChannel.rmdir(remote);
+    }
+
     public void forceDisconnect() {
         if (session != null && session.isConnected()) {
             session.disconnect();
-            System.out.println("Force disconnected.");
+            logger.warn("Force disconnected.");
         }
+    }
+
+    public void mkdir(String remote) throws SftpException {
+        sftpChannel.mkdir(remote);
     }
 
 }

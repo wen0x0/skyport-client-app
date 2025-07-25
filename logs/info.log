@@ -1,0 +1,196 @@
+2025-07-25 19:42:36 [JavaFX Application Thread] INFO  com.example.App - UI loaded and shown.
+2025-07-25 19:43:57 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Test connect button clicked. Attempting connection to null:0 with user 'null'
+2025-07-25 19:43:57 [Thread-3] INFO  com.example.SFTPClientController - Initializing SFTPClient for test with knownHosts: 
+2025-07-25 19:43:57 [Thread-3] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 19:43:57 [Thread-3] INFO  com.example.SFTPClientController - Testing connection to SFTP server 192.168.108.128:2222 as david
+2025-07-25 19:43:57 [Thread-3] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 19:44:00 [Thread-3] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 19:44:00 [Thread-3] INFO  com.example.SFTPClient - Host key saved to D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 19:44:00 [Thread-3] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 19:44:00 [Thread-3] INFO  com.example.SFTPClient - SFTP channel disconnected.
+2025-07-25 19:44:00 [Thread-3] INFO  com.example.SFTPClient - Session disconnected.
+2025-07-25 19:44:00 [Thread-3] INFO  com.example.SFTPClientController - Test connection to 192.168.108.128:2222 succeeded.
+2025-07-25 19:44:00 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Test connection to 192.168.108.128:2222 succeeded.
+2025-07-25 19:44:00 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Test Successful] Successfully connected to 192.168.108.128:2222
+2025-07-25 19:44:07 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connect button clicked. Attempting connection to 192.168.108.128:2222 with user 'david'
+2025-07-25 19:44:07 [Thread-5] INFO  com.example.SFTPClientController - Initializing SFTPClient with knownHosts: 
+2025-07-25 19:44:07 [Thread-5] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 19:44:07 [Thread-5] INFO  com.example.SFTPClientController - Connecting to SFTP server 192.168.108.128:2222 as david
+2025-07-25 19:44:07 [Thread-5] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 19:44:08 [Thread-5] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 19:44:08 [Thread-5] INFO  com.example.SFTPClient - Host key saved to D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 19:44:08 [Thread-5] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 19:44:08 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connection to 192.168.108.128:2222 succeeded.
+2025-07-25 19:44:08 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Connection Successful] Connected to 192.168.108.128:2222
+2025-07-25 19:44:08 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Loading shell-view.fxml: file:/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml
+2025-07-25 19:44:09 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Switched to shell view for user 'david'
+2025-07-25 19:50:00 [JavaFX Application Thread] INFO  com.example.App - UI loaded and shown.
+2025-07-25 19:50:15 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Test connect button clicked. Attempting connection to null:0 with user 'null'
+2025-07-25 19:50:15 [Thread-3] INFO  com.example.SFTPClientController - Initializing SFTPClient for test with knownHosts: 
+2025-07-25 19:50:15 [Thread-3] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 19:50:15 [Thread-3] INFO  com.example.SFTPClientController - Testing connection to SFTP server 192.168.108.128:2222 as david
+2025-07-25 19:50:15 [Thread-3] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 19:50:17 [Thread-3] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 19:50:17 [Thread-3] INFO  com.example.SFTPClient - Host key saved to D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 19:50:17 [Thread-3] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 19:50:17 [Thread-3] INFO  com.example.SFTPClient - SFTP channel disconnected.
+2025-07-25 19:50:17 [Thread-3] INFO  com.example.SFTPClient - Session disconnected.
+2025-07-25 19:50:17 [Thread-3] INFO  com.example.SFTPClientController - Test connection to 192.168.108.128:2222 succeeded.
+2025-07-25 19:50:17 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Test connection to 192.168.108.128:2222 succeeded.
+2025-07-25 19:50:17 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Test Successful] Successfully connected to 192.168.108.128:2222
+2025-07-25 19:50:20 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connect button clicked. Attempting connection to 192.168.108.128:2222 with user 'david'
+2025-07-25 19:50:20 [Thread-5] INFO  com.example.SFTPClientController - Initializing SFTPClient with knownHosts: 
+2025-07-25 19:50:20 [Thread-5] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 19:50:20 [Thread-5] INFO  com.example.SFTPClientController - Connecting to SFTP server 192.168.108.128:2222 as david
+2025-07-25 19:50:20 [Thread-5] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 19:50:21 [Thread-5] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 19:50:21 [Thread-5] INFO  com.example.SFTPClient - Host key saved to D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 19:50:21 [Thread-5] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 19:50:21 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connection to 192.168.108.128:2222 succeeded.
+2025-07-25 19:50:21 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Connection Successful] Connected to 192.168.108.128:2222
+2025-07-25 19:50:21 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Loading shell-view.fxml: file:/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml
+2025-07-25 19:50:22 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Switched to shell view for user 'david'
+2025-07-25 19:51:02 [JavaFX Application Thread] INFO  com.example.ShellController - Executing exit command
+2025-07-25 19:51:02 [JavaFX Application Thread] INFO  com.example.SFTPClient - SFTP channel disconnected.
+2025-07-25 19:51:02 [JavaFX Application Thread] INFO  com.example.SFTPClient - Session disconnected.
+2025-07-25 19:51:02 [JavaFX Application Thread] INFO  com.example.ShellController - Disconnected from SFTP server
+2025-07-25 19:51:17 [JavaFX Application Thread] INFO  com.example.App - UI loaded and shown.
+2025-07-25 19:51:25 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Browse known hosts button clicked.
+2025-07-25 20:00:23 [JavaFX Application Thread] INFO  com.example.App - UI loaded and shown.
+2025-07-25 20:00:31 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Browse known hosts button clicked.
+2025-07-25 20:00:48 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Selected known_hosts file: C:\Users\quoca\Documents\ubuntu
+2025-07-25 20:01:00 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Test connect button clicked. Attempting connection to null:0 with user 'null'
+2025-07-25 20:01:00 [Thread-3] INFO  com.example.SFTPClientController - Initializing SFTPClient for test with knownHosts: C:\Users\quoca\Documents\ubuntu
+2025-07-25 20:01:00 [Thread-3] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: C:\Users\quoca\Documents\ubuntu
+2025-07-25 20:01:00 [Thread-3] INFO  com.example.SFTPClientController - Testing connection to SFTP server 192.168.108.128:2222 as david
+2025-07-25 20:01:00 [Thread-3] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 20:01:01 [Thread-3] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 20:01:01 [Thread-3] INFO  com.example.SFTPClient - Host key saved to C:\Users\quoca\Documents\ubuntu
+2025-07-25 20:01:01 [Thread-3] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 20:01:01 [Thread-3] INFO  com.example.SFTPClient - SFTP channel disconnected.
+2025-07-25 20:01:01 [Thread-3] INFO  com.example.SFTPClient - Session disconnected.
+2025-07-25 20:01:01 [Thread-3] INFO  com.example.SFTPClientController - Test connection to 192.168.108.128:2222 succeeded.
+2025-07-25 20:01:01 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Test connection to 192.168.108.128:2222 succeeded.
+2025-07-25 20:01:01 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Test Successful] Successfully connected to 192.168.108.128:2222
+2025-07-25 20:01:03 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connect button clicked. Attempting connection to 192.168.108.128:2222 with user 'david'
+2025-07-25 20:01:03 [Thread-5] INFO  com.example.SFTPClientController - Initializing SFTPClient with knownHosts: C:\Users\quoca\Documents\ubuntu
+2025-07-25 20:01:03 [Thread-5] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: C:\Users\quoca\Documents\ubuntu
+2025-07-25 20:01:03 [Thread-5] INFO  com.example.SFTPClientController - Connecting to SFTP server 192.168.108.128:2222 as david
+2025-07-25 20:01:03 [Thread-5] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 20:01:04 [Thread-5] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 20:01:04 [Thread-5] INFO  com.example.SFTPClient - Host key saved to C:\Users\quoca\Documents\ubuntu
+2025-07-25 20:01:04 [Thread-5] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 20:01:04 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connection to 192.168.108.128:2222 succeeded.
+2025-07-25 20:01:04 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Connection Successful] Connected to 192.168.108.128:2222
+2025-07-25 20:01:04 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:01:04 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Switched to file browser view for user 'david'
+2025-07-25 20:01:33 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Uploaded file: CV-FullstackDeveloperIntern-DoHoangThinh.pdf
+2025-07-25 20:01:33 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:03:36 [JavaFX Application Thread] INFO  com.example.App - UI loaded and shown.
+2025-07-25 20:03:52 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Browse known hosts button clicked.
+2025-07-25 20:04:05 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Selected known_hosts file: C:\Users\quoca\Documents\pubkey
+2025-07-25 20:04:15 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Test connect button clicked. Attempting connection to null:0 with user 'null'
+2025-07-25 20:04:15 [Thread-3] INFO  com.example.SFTPClientController - Initializing SFTPClient for test with knownHosts: C:\Users\quoca\Documents\pubkey
+2025-07-25 20:04:15 [Thread-3] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: C:\Users\quoca\Documents\pubkey
+2025-07-25 20:04:15 [Thread-3] INFO  com.example.SFTPClientController - Testing connection to SFTP server 192.168.108.128:2222 as david
+2025-07-25 20:04:15 [Thread-3] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 20:04:17 [Thread-3] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 20:04:17 [Thread-3] INFO  com.example.SFTPClient - Host key saved to C:\Users\quoca\Documents\pubkey
+2025-07-25 20:04:17 [Thread-3] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 20:04:17 [Thread-3] INFO  com.example.SFTPClient - SFTP channel disconnected.
+2025-07-25 20:04:17 [Thread-3] INFO  com.example.SFTPClient - Session disconnected.
+2025-07-25 20:04:17 [Thread-3] INFO  com.example.SFTPClientController - Test connection to 192.168.108.128:2222 succeeded.
+2025-07-25 20:04:17 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Test connection to 192.168.108.128:2222 succeeded.
+2025-07-25 20:04:17 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Test Successful] Successfully connected to 192.168.108.128:2222
+2025-07-25 20:04:21 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connect button clicked. Attempting connection to 192.168.108.128:2222 with user 'david'
+2025-07-25 20:04:21 [Thread-5] INFO  com.example.SFTPClientController - Initializing SFTPClient with knownHosts: C:\Users\quoca\Documents\pubkey
+2025-07-25 20:04:21 [Thread-5] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: C:\Users\quoca\Documents\pubkey
+2025-07-25 20:04:21 [Thread-5] INFO  com.example.SFTPClientController - Connecting to SFTP server 192.168.108.128:2222 as david
+2025-07-25 20:04:21 [Thread-5] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 20:04:22 [Thread-5] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 20:04:22 [Thread-5] INFO  com.example.SFTPClient - Host key saved to C:\Users\quoca\Documents\pubkey
+2025-07-25 20:04:22 [Thread-5] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 20:04:22 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connection to 192.168.108.128:2222 succeeded.
+2025-07-25 20:04:22 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Connection Successful] Connected to 192.168.108.128:2222
+2025-07-25 20:04:22 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:04:22 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Switched to file browser view for user 'david'
+2025-07-25 20:05:13 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Downloaded file: CV-FullstackDeveloperIntern-DoHoangThinh.pdf
+2025-07-25 20:05:47 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Uploaded file: CV-FullstackDeveloperIntern-DoHoangThinh.pdf
+2025-07-25 20:05:47 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:06:44 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Deleted file: CV-FullstackDeveloperIntern-DoHoangThinh.pdf
+2025-07-25 20:06:44 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:06:57 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:06:58 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:06:58 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:10:40 [JavaFX Application Thread] INFO  com.example.App - UI loaded and shown.
+2025-07-25 20:10:52 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Test connect button clicked. Attempting connection to null:0 with user 'null'
+2025-07-25 20:10:52 [Thread-3] INFO  com.example.SFTPClientController - Initializing SFTPClient for test with knownHosts: 
+2025-07-25 20:10:52 [Thread-3] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 20:10:52 [Thread-3] INFO  com.example.SFTPClientController - Testing connection to SFTP server 192.168.108.128:2222 as david
+2025-07-25 20:10:52 [Thread-3] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 20:10:53 [Thread-3] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 20:10:53 [Thread-3] INFO  com.example.SFTPClient - Host key saved to D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 20:10:53 [Thread-3] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 20:10:53 [Thread-3] INFO  com.example.SFTPClient - SFTP channel disconnected.
+2025-07-25 20:10:53 [Thread-3] INFO  com.example.SFTPClient - Session disconnected.
+2025-07-25 20:10:53 [Thread-3] INFO  com.example.SFTPClientController - Test connection to 192.168.108.128:2222 succeeded.
+2025-07-25 20:10:53 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Test connection to 192.168.108.128:2222 succeeded.
+2025-07-25 20:10:53 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Test Successful] Successfully connected to 192.168.108.128:2222
+2025-07-25 20:10:55 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connect button clicked. Attempting connection to 192.168.108.128:2222 with user 'david'
+2025-07-25 20:10:55 [Thread-5] INFO  com.example.SFTPClientController - Initializing SFTPClient with knownHosts: 
+2025-07-25 20:10:56 [Thread-5] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 20:10:56 [Thread-5] INFO  com.example.SFTPClientController - Connecting to SFTP server 192.168.108.128:2222 as david
+2025-07-25 20:10:56 [Thread-5] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 20:10:56 [Thread-5] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 20:10:56 [Thread-5] INFO  com.example.SFTPClient - Host key saved to D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 20:10:56 [Thread-5] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 20:10:56 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connection to 192.168.108.128:2222 succeeded.
+2025-07-25 20:10:56 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Connection Successful] Connected to 192.168.108.128:2222
+2025-07-25 20:10:57 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:10:57 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Switched to file browser view for user 'david'
+2025-07-25 20:11:12 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Open Shell button clicked.
+2025-07-25 20:13:53 [JavaFX Application Thread] INFO  com.example.App - UI loaded and shown.
+2025-07-25 20:14:05 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connect button clicked. Attempting connection to null:0 with user 'null'
+2025-07-25 20:14:05 [Thread-3] INFO  com.example.SFTPClientController - Initializing SFTPClient with knownHosts: 
+2025-07-25 20:14:06 [Thread-3] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 20:14:06 [Thread-3] INFO  com.example.SFTPClientController - Connecting to SFTP server 192.168.108.128:2222 as david
+2025-07-25 20:14:06 [Thread-3] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 20:14:08 [Thread-3] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 20:14:08 [Thread-3] INFO  com.example.SFTPClient - Host key saved to D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 20:14:08 [Thread-3] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 20:14:08 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connection to 192.168.108.128:2222 succeeded.
+2025-07-25 20:14:08 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Connection Successful] Connected to 192.168.108.128:2222
+2025-07-25 20:14:08 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:14:09 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Switched to file browser view for user 'david'
+2025-07-25 20:14:28 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Created folder: abcd
+2025-07-25 20:14:28 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:14:38 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Open Shell button clicked.
+2025-07-25 20:14:44 [JavaFX Application Thread] INFO  com.example.ShellController - Executing pwd command
+2025-07-25 20:14:44 [JavaFX Application Thread] INFO  com.example.ShellController - Current directory: /
+2025-07-25 20:14:47 [JavaFX Application Thread] INFO  com.example.ShellController - Executing ls command
+2025-07-25 20:14:47 [JavaFX Application Thread] INFO  com.example.ShellController - Directory listing for: .
+2025-07-25 20:14:55 [JavaFX Application Thread] INFO  com.example.ShellController - Executing echo command
+2025-07-25 20:14:55 [JavaFX Application Thread] INFO  com.example.ShellController - Echoed message: test.txt
+2025-07-25 20:15:05 [JavaFX Application Thread] INFO  com.example.ShellController - Executing echo command
+2025-07-25 20:15:09 [JavaFX Application Thread] INFO  com.example.ShellController - Executing echo command
+2025-07-25 20:15:09 [JavaFX Application Thread] INFO  com.example.ShellController - Echoed message: helloworld
+2025-07-25 20:15:27 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Created folder: alibaba
+2025-07-25 20:15:27 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:15:35 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Logout button clicked.
+2025-07-25 20:15:35 [JavaFX Application Thread] INFO  com.example.SFTPClient - SFTP channel disconnected.
+2025-07-25 20:15:35 [JavaFX Application Thread] INFO  com.example.SFTPClient - Session disconnected.
+2025-07-25 20:16:51 [JavaFX Application Thread] INFO  com.example.App - UI loaded and shown.
+2025-07-25 20:17:10 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connect button clicked. Attempting connection to null:0 with user 'null'
+2025-07-25 20:17:10 [Thread-3] INFO  com.example.SFTPClientController - Initializing SFTPClient with knownHosts: 
+2025-07-25 20:17:10 [Thread-3] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 20:17:10 [Thread-3] INFO  com.example.SFTPClientController - Connecting to SFTP server 192.168.108.128:2222 as david
+2025-07-25 20:17:10 [Thread-3] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 20:17:12 [Thread-3] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 20:17:12 [Thread-3] INFO  com.example.SFTPClient - Host key saved to D:\OneDrive - MSFT\Git Repositories\sftp-client-ui\keys\known_hosts
+2025-07-25 20:17:12 [Thread-3] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 20:17:12 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connection to 192.168.108.128:2222 succeeded.
+2025-07-25 20:17:12 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Connection Successful] Connected to 192.168.108.128:2222
+2025-07-25 20:17:12 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 20:17:13 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Switched to file browser view for user 'david'
+2025-07-25 20:17:15 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /abcd
+2025-07-25 20:17:15 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Changed directory to: /abcd
