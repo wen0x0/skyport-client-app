@@ -690,3 +690,19 @@ Please check the IP address, port, or network status and try again.
 2025-07-25 21:25:55 [JavaFX Application Thread] INFO  com.example.SFTPClient - SFTP channel disconnected.
 2025-07-25 21:25:55 [JavaFX Application Thread] INFO  com.example.SFTPClient - Session disconnected.
 2025-07-25 21:26:20 [JavaFX Application Thread] INFO  com.example.App - UI loaded and shown.
+2025-07-25 21:26:46 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connect button clicked. Attempting connection to null:0 with user 'null'
+2025-07-25 21:26:46 [Thread-3] INFO  com.example.SFTPClientController - Initializing SFTPClient with knownHosts: 
+2025-07-25 21:26:46 [Thread-3] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: C:\Users\quoca\.ssh\known_hosts
+2025-07-25 21:26:46 [Thread-3] INFO  com.example.SFTPClientController - Connecting to SFTP server 192.168.108.128:2222 as david
+2025-07-25 21:26:46 [Thread-3] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 21:26:48 [Thread-3] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 21:26:48 [Thread-3] INFO  com.example.SFTPClient - Host key saved to C:\Users\quoca\.ssh\known_hosts
+2025-07-25 21:26:48 [Thread-3] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 21:26:48 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connection to 192.168.108.128:2222 succeeded.
+2025-07-25 21:26:48 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Connection Successful] Connected to 192.168.108.128:2222
+2025-07-25 21:26:49 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 21:26:49 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Switched to file browser view for user 'david'
+2025-07-25 21:26:51 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Open Shell button clicked.
+2025-07-25 21:27:08 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Logout button clicked.
+2025-07-25 21:27:08 [JavaFX Application Thread] INFO  com.example.SFTPClient - SFTP channel disconnected.
+2025-07-25 21:27:08 [JavaFX Application Thread] INFO  com.example.SFTPClient - Session disconnected.
