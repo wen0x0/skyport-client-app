@@ -71,7 +71,6 @@ public class FileBrowserController {
             }
             fileListView.setItems(items);
             pathLabel.setText(currentDir);
-            statusLabel.setText("Current directory: " + currentDir);
             logger.info("Loaded file list for directory: {}", currentDir);
             fileInfoLabel.setText("File details");
         } catch (SftpException e) {
@@ -177,9 +176,8 @@ public class FileBrowserController {
             shellController.setConnectionInfo(client.session.getUserName(), client.session.getHost(), client.session.getPort());
 
             Stage shellStage = new Stage();
-            shellStage.setScene(new Scene(shellRoot));
+            shellStage.setScene(new Scene(shellRoot, 700, 400)); 
             shellStage.setTitle("Skyport Terminal");
-            shellStage.setMaximized(true);
             shellStage.show();
         } catch (Exception e) {
             statusLabel.setText("Failed to open shell: " + e.getMessage());

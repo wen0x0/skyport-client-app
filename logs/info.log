@@ -842,3 +842,25 @@ Please check the IP address, port, or network status and try again.
 2025-07-25 21:45:28 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Changed directory to: /alibaba
 2025-07-25 21:45:30 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /alibaba/aladin
 2025-07-25 21:45:30 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Changed directory to: /alibaba/aladin
+2025-07-25 21:48:44 [JavaFX Application Thread] INFO  com.example.App - UI loaded and shown.
+2025-07-25 21:49:08 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connect button clicked. Attempting connection to null:0 with user 'null'
+2025-07-25 21:49:08 [Thread-3] INFO  com.example.SFTPClientController - Initializing SFTPClient with knownHosts: 
+2025-07-25 21:49:08 [Thread-3] INFO  com.example.SFTPClient - SFTPClient initialized with knownHostsPath: C:\Users\quoca\.ssh\known_hosts
+2025-07-25 21:49:08 [Thread-3] INFO  com.example.SFTPClientController - Connecting to SFTP server 192.168.108.128:2222 as david
+2025-07-25 21:49:08 [Thread-3] INFO  com.example.SFTPClient - Connecting to 192.168.108.128:2222 as david
+2025-07-25 21:49:09 [Thread-3] INFO  com.example.SFTPClient - Connected to 192.168.108.128:2222
+2025-07-25 21:49:09 [Thread-3] INFO  com.example.SFTPClient - Host key saved to C:\Users\quoca\.ssh\known_hosts
+2025-07-25 21:49:09 [Thread-3] INFO  com.example.SFTPClient - SFTP channel opened.
+2025-07-25 21:49:09 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Connection to 192.168.108.128:2222 succeeded.
+2025-07-25 21:49:09 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Showing alert: [Connection Successful] Connected to 192.168.108.128:2222
+2025-07-25 21:49:09 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 21:49:09 [JavaFX Application Thread] INFO  com.example.SFTPClientController - Switched to file browser view for user 'david'
+2025-07-25 21:49:15 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /alibaba
+2025-07-25 21:49:15 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Changed directory to: /alibaba
+2025-07-25 21:49:17 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /alibaba/aladin
+2025-07-25 21:49:17 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Changed directory to: /alibaba/aladin
+2025-07-25 21:49:19 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /alibaba
+2025-07-25 21:49:19 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Changed directory to previous: /alibaba
+2025-07-25 21:49:20 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Loaded file list for directory: /
+2025-07-25 21:49:20 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Changed directory to previous: /
+2025-07-25 21:49:25 [JavaFX Application Thread] INFO  com.example.FileBrowserController - Open Shell button clicked.
