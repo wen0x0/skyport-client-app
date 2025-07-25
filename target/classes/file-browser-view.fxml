@@ -14,7 +14,7 @@
                 <Label text="Skyport Client" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Label fx:id="serverInfoLabel" text="user@host:port"
-                    style="-fx-font-family: monospace;" />
+                    style="-fx-font-family: Consolas;" />
                 <Button text="Logout" onAction="#logout" />
             </HBox>
 
@@ -43,7 +43,7 @@
                 <Label text="📂" style="-fx-font-size: 16px;" />
                 <Label text="Current Path:" style="-fx-font-weight: bold;" />
                 <Label fx:id="pathLabel" text="/home/user"
-                    style="-fx-background-color: #e9ecef; -fx-padding: 5 10; -fx-font-family: monospace;" />
+                    style="-fx-background-color: #e9ecef; -fx-padding: 5 10; -fx-font-family: Consolas;" />
             </HBox>
 
             <!-- File List & Info Panel -->
@@ -55,7 +55,8 @@
                 <VBox spacing="10" minWidth="200"
                     style="-fx-background-color: white; -fx-border-color: #ddd; -fx-padding: 15;">
                     <Label text="Selection Details" style="-fx-font-weight: bold;" />
-                    <Label fx:id="fileInfoLabel" text="No file selected" wrapText="true" />
+                    <Label fx:id="fileInfoLabel" text="No file selected" wrapText="true"
+                        style="-fx-font-family: Consolas;" />
                     <Label fx:id="statusLabel" text="" />
                 </VBox>
             </HBox>

@@ -73,7 +73,7 @@ public class FileBrowserController {
             pathLabel.setText(currentDir);
             statusLabel.setText("Current directory: " + currentDir);
             logger.info("Loaded file list for directory: {}", currentDir);
-            fileInfoLabel.setText("Select a file to view details");
+            fileInfoLabel.setText("File details");
         } catch (SftpException e) {
             statusLabel.setText("Failed to load file list: " + e.getMessage());
             logger.error("Failed to load file list: {}", e.getMessage());
@@ -199,10 +199,12 @@ public class FileBrowserController {
                 for (ChannelSftp.LsEntry entry : entries) {
                     String name = entry.getFilename() + (entry.getAttrs().isDir() ? "/" : "");
                     if (name.equals(newVal)) {
-                        String info = entry.getAttrs().isDir() ? "Folder" : "File";
-                        info += " | Size: " + entry.getAttrs().getSize() + " bytes";
-                        info += " | Permissions: " + entry.getAttrs().getPermissionsString();
-                        fileInfoLabel.setText(info);
+                        if (entry.getAttrs().isDir()) {
+                            fileInfoLabel.setText("Folder");
+                        } else {
+                            long size = entry.getAttrs().getSize();
+                            fileInfoLabel.setText("File | Size: " + formatSize(size));
+                        }
                         break;
                     }
                 }
@@ -219,7 +221,6 @@ public class FileBrowserController {
                     client.cd(currentDir + "/" + selected.replace("/", ""));
                     currentDir = client.pwd();
                     refreshFileList();
-                    statusLabel.setText("Changed directory to: " + currentDir);
                     logger.info("Changed directory to: {}", currentDir);
                 } catch (Exception e) {
                     statusLabel.setText("Failed to change directory: " + e.getMessage());
@@ -227,6 +228,14 @@ public class FileBrowserController {
                 }
             }
         });
+    }
+
+    // Thêm hàm formatSize vào class
+    private String formatSize(long size) {
+        if (size < 1024) return size + " B";
+        int exp = (int) (Math.log(size) / Math.log(1024));
+        String pre = "KMGTPE".charAt(exp - 1) + "B";
+        return String.format("%.1f %s", size / Math.pow(1024, exp), pre);
     }
 
     @FXML
@@ -262,7 +271,6 @@ public class FileBrowserController {
             client.cd(homeDir);
             currentDir = client.pwd();
             refreshFileList();
-            statusLabel.setText("Changed directory to home: " + currentDir);
             logger.info("Changed directory to home: {}", currentDir);
         } catch (Exception e) {
             statusLabel.setText("Failed to go home: " + e.getMessage());
@@ -278,7 +286,6 @@ public class FileBrowserController {
             client.cd(prevDir);
             currentDir = client.pwd();
             refreshFileList();
-            statusLabel.setText("Changed directory to previous: " + currentDir);
             logger.info("Changed directory to previous: {}", currentDir);
         } catch (Exception e) {
             statusLabel.setText("Failed to go back: " + e.getMessage());
