@@ -1,0 +1,152 @@
+2025-07-25 20:41:12 [JavaFX Application Thread] ERROR com.example.SFTPClientController - Failed to load file browser view: 
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/file-browser-view.fxml:145
+
+javafx.fxml.LoadException: 
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/file-browser-view.fxml:145
+
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2722)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2700)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2563)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2531)
+	at com.example.SFTPClientController$1.succeeded(SFTPClientController.java:127)
+	at javafx.graphics@21/javafx.concurrent.Task.setState(Task.java:726)
+	at javafx.graphics@21/javafx.concurrent.Task$TaskCallable.lambda$call$1(Task.java:1410)
+	at javafx.graphics@21/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at javafx.graphics@21/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
+	at javafx.graphics@21/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@21/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@21/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.lang.UnsupportedOperationException: Cannot determine type for property.
+	at javafx.fxml@21/com.sun.javafx.fxml.BeanAdapter.getSetterMethod(BeanAdapter.java:178)
+	at javafx.fxml@21/com.sun.javafx.fxml.BeanAdapter.isReadOnly(BeanAdapter.java:306)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader$PropertyElement.<init>(FXMLLoader.java:1379)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.createElement(FXMLLoader.java:2877)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.processStartElement(FXMLLoader.java:2850)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2649)
+	... 12 common frames omitted
+2025-07-25 20:41:29 [JavaFX Application Thread] ERROR com.example.SFTPClientController - Failed to load file browser view: 
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/file-browser-view.fxml:145
+
+javafx.fxml.LoadException: 
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/file-browser-view.fxml:145
+
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2722)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2700)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2563)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2531)
+	at com.example.SFTPClientController$1.succeeded(SFTPClientController.java:127)
+	at javafx.graphics@21/javafx.concurrent.Task.setState(Task.java:726)
+	at javafx.graphics@21/javafx.concurrent.Task$TaskCallable.lambda$call$1(Task.java:1410)
+	at javafx.graphics@21/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at javafx.graphics@21/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
+	at javafx.graphics@21/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@21/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@21/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.lang.UnsupportedOperationException: Cannot determine type for property.
+	at javafx.fxml@21/com.sun.javafx.fxml.BeanAdapter.getSetterMethod(BeanAdapter.java:178)
+	at javafx.fxml@21/com.sun.javafx.fxml.BeanAdapter.isReadOnly(BeanAdapter.java:306)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader$PropertyElement.<init>(FXMLLoader.java:1379)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.createElement(FXMLLoader.java:2877)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.processStartElement(FXMLLoader.java:2850)
+	at javafx.fxml@21/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2649)
+	... 12 common frames omitted
+2025-07-25 21:19:34 [JavaFX Application Thread] ERROR com.example.SFTPClientController - Connection to 192.168.108.182:2222 failed: java.net.ConnectException: Connection timed out: connect
+com.jcraft.jsch.JSchException: java.net.ConnectException: Connection timed out: connect
+	at com.jcraft.jsch.Util.createSocket(Util.java:349)
+	at com.jcraft.jsch.Session.connect(Session.java:215)
+	at com.jcraft.jsch.Session.connect(Session.java:183)
+	at com.example.SFTPClient.connect(SFTPClient.java:110)
+	at com.example.SFTPClientController$1.call(SFTPClientController.java:115)
+	at com.example.SFTPClientController$1.call(SFTPClientController.java:105)
+	at javafx.graphics@21/javafx.concurrent.Task$TaskCallable.call(Task.java:1399)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:589)
+	at java.base/sun.nio.ch.Net.connect(Net.java:578)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at java.base/java.net.Socket.connect(Socket.java:686)
+	at java.base/java.net.Socket.<init>(Socket.java:555)
+	at java.base/java.net.Socket.<init>(Socket.java:324)
+	at com.jcraft.jsch.Util.createSocket(Util.java:343)
+	... 8 common frames omitted
+2025-07-25 21:19:34 [JavaFX Application Thread] ERROR com.example.SFTPClientController - Connection timed out to 192.168.108.182:2222
+2025-07-25 21:20:06 [JavaFX Application Thread] ERROR com.example.SFTPClientController - Test connection to 192.168.108.182:2222 failed: java.net.ConnectException: Connection timed out: connect
+com.jcraft.jsch.JSchException: java.net.ConnectException: Connection timed out: connect
+	at com.jcraft.jsch.Util.createSocket(Util.java:349)
+	at com.jcraft.jsch.Session.connect(Session.java:215)
+	at com.jcraft.jsch.Session.connect(Session.java:183)
+	at com.example.SFTPClient.connect(SFTPClient.java:110)
+	at com.example.SFTPClientController$2.call(SFTPClientController.java:194)
+	at com.example.SFTPClientController$2.call(SFTPClientController.java:184)
+	at javafx.graphics@21/javafx.concurrent.Task$TaskCallable.call(Task.java:1399)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:589)
+	at java.base/sun.nio.ch.Net.connect(Net.java:578)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at java.base/java.net.Socket.connect(Socket.java:686)
+	at java.base/java.net.Socket.<init>(Socket.java:555)
+	at java.base/java.net.Socket.<init>(Socket.java:324)
+	at com.jcraft.jsch.Util.createSocket(Util.java:343)
+	... 8 common frames omitted
+2025-07-25 21:20:06 [JavaFX Application Thread] ERROR com.example.SFTPClientController - Test connection timed out to 192.168.108.182:2222
+2025-07-25 21:21:12 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:14 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:18 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:18 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:18 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:18 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:19 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:19 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:19 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:19 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:19 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:19 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:32 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:33 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:21:33 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: Missing expression.
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:53
+
+2025-07-25 21:23:35 [JavaFX Application Thread] ERROR com.example.FileBrowserController - Failed to open shell: 
+/D:/OneDrive%20-%20MSFT/Git%20Repositories/sftp-client-ui/target/classes/shell-view.fxml:10
+

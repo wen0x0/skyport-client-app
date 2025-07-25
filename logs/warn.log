@@ -1,1 +1,5 @@
 2025-07-25 20:15:05 [JavaFX Application Thread] WARN  com.example.ShellController - echo command usage error: no message provided
+2025-07-25 21:20:59 [JavaFX Application Thread] WARN  com.example.SFTPClientController - User confirmed cancellation of running task.
+2025-07-25 21:20:59 [JavaFX Application Thread] WARN  com.example.SFTPClientController - Test connection attempt to 192.168.108.182:2222 cancelled.
+2025-07-25 21:20:59 [JavaFX Application Thread] WARN  com.example.SFTPClientController - testTask cancelled.
+2025-07-25 21:20:59 [JavaFX Application Thread] WARN  com.example.SFTPClientController - Forced disconnect on client.

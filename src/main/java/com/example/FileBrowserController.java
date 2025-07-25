@@ -14,6 +14,7 @@ import com.jcraft.jsch.SftpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
+import java.util.Stack;
 import java.util.Vector;
 
 public class FileBrowserController {
@@ -27,16 +28,27 @@ public class FileBrowserController {
     private Label pathLabel;
     @FXML
     private Label fileInfoLabel;
+    @FXML
+    private Label serverInfoLabel;
 
     private SFTPClient client;
     private String currentDir = ".";
+    private Stack<String> dirHistory = new Stack<>();
+    private String homeDir = null;
 
     public void setClient(SFTPClient client) {
         this.client = client;
         try {
             currentDir = client.pwd();
+            homeDir = currentDir; // Lưu lại homeDir khi login
+            String user = client.session.getUserName();
+            String host = client.session.getHost();
+            int port = client.session.getPort();
+            serverInfoLabel.setText(user + "@" + host + ":" + port);
         } catch (Exception e) {
             currentDir = ".";
+            homeDir = ".";
+            serverInfoLabel.setText("Unknown");
         }
         refreshFileList();
     }
@@ -65,19 +77,6 @@ public class FileBrowserController {
         } catch (SftpException e) {
             statusLabel.setText("Failed to load file list: " + e.getMessage());
             logger.error("Failed to load file list: {}", e.getMessage());
-        }
-    }
-
-    @FXML
-    private void goUp() {
-        if (client == null) return;
-        try {
-            client.cd("..");
-            currentDir = client.pwd();
-            refreshFileList();
-        } catch (Exception e) {
-            statusLabel.setText("Cannot go up: " + e.getMessage());
-            logger.error("Cannot go up: {}", e.getMessage());
         }
     }
 
@@ -216,6 +215,7 @@ public class FileBrowserController {
             String selected = fileListView.getSelectionModel().getSelectedItem();
             if (event.getClickCount() == 2 && selected != null && selected.endsWith("/")) {
                 try {
+                    dirHistory.push(currentDir);
                     client.cd(currentDir + "/" + selected.replace("/", ""));
                     currentDir = client.pwd();
                     refreshFileList();
@@ -252,5 +252,37 @@ public class FileBrowserController {
                 logger.error("Create folder failed: {}", e.getMessage());
             }
         });
+    }
+
+    @FXML
+    private void goHome() {
+        if (client == null || homeDir == null) return;
+        try {
+            dirHistory.push(currentDir);
+            client.cd(homeDir);
+            currentDir = client.pwd();
+            refreshFileList();
+            statusLabel.setText("Changed directory to home: " + currentDir);
+            logger.info("Changed directory to home: {}", currentDir);
+        } catch (Exception e) {
+            statusLabel.setText("Failed to go home: " + e.getMessage());
+            logger.error("Failed to go home: {}", e.getMessage());
+        }
+    }
+
+    @FXML
+    private void goBack() {
+        if (client == null || dirHistory.isEmpty()) return;
+        try {
+            String prevDir = dirHistory.pop();
+            client.cd(prevDir);
+            currentDir = client.pwd();
+            refreshFileList();
+            statusLabel.setText("Changed directory to previous: " + currentDir);
+            logger.info("Changed directory to previous: {}", currentDir);
+        } catch (Exception e) {
+            statusLabel.setText("Failed to go back: " + e.getMessage());
+            logger.error("Failed to go back: {}", e.getMessage());
+        }
     }
 }

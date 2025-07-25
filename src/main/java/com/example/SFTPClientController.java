@@ -1,5 +1,6 @@
 package com.example;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -107,7 +108,7 @@ public class SFTPClientController {
                 if (isCancelled())
                     return null;
                 logger.info("Initializing SFTPClient with knownHosts: {}", knownHosts);
-                client = new SFTPClient(knownHosts);
+                client = new SFTPClient(getKnownHostsPath());
                 if (isCancelled())
                     return null;
                 logger.info("Connecting to SFTP server {}:{} as {}", ip, port, username);
@@ -186,7 +187,7 @@ public class SFTPClientController {
                 if (isCancelled())
                     return null;
                 logger.info("Initializing SFTPClient for test with knownHosts: {}", knownHosts);
-                SFTPClient testClient = new SFTPClient(knownHosts);
+                SFTPClient testClient = new SFTPClient(getKnownHostsPath());
                 if (isCancelled())
                     return null;
                 logger.info("Testing connection to SFTP server {}:{} as {}", ip, port, username);
@@ -329,5 +330,14 @@ public class SFTPClientController {
         } else {
             logger.info("No known_hosts file selected.");
         }
+    }
+
+    private String getKnownHostsPath() {
+        String path = knownHostsField.getText();
+        if (path == null || path.trim().isEmpty()) {
+            String userHome = System.getProperty("user.home");
+            path = userHome + File.separator + ".ssh" + File.separator + "known_hosts";
+        }
+        return path;
     }
 }
