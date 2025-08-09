@@ -4,7 +4,6 @@ import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
@@ -25,8 +24,6 @@ public class ShellController {
     private Label statusIndicator;
     @FXML
     private Label userLabel;
-    @FXML
-    private ProgressBar progressBar; 
 
     private Timeline blinkTimeline;
     private int commandCount = 0;
@@ -174,6 +171,7 @@ public class ShellController {
                             outputArea.appendText("    Usage: get <remote_file> <local_file>\n");
                             logger.warn("get command usage error: remote or local file not specified");
                         } else {
+                            outputArea.appendText("    Downloading " + parts[1] + " ...\n");
                             Task<Void> downloadTask = new Task<>() {
                                 @Override
                                 protected Void call() throws Exception {
@@ -183,33 +181,40 @@ public class ShellController {
                                         @Override
                                         public void init(int op, String src, String dest, long max) {
                                             this.max = max > 0 ? max : 1;
-                                            updateProgress(0, this.max);
+                                            updateMessage("[0%]");
                                         }
                                         @Override
                                         public boolean count(long bytes) {
                                             count += bytes;
-                                            updateProgress(count, max);
+                                            int percent = (int)((count * 100) / max);
+                                            updateMessage("[" + percent + "%]");
                                             return true;
                                         }
                                         @Override
                                         public void end() {
-                                            updateProgress(max, max);
+                                            updateMessage("[100%]");
                                         }
                                     });
                                     return null;
                                 }
                             };
-                            progressBar.progressProperty().bind(downloadTask.progressProperty());
+                            downloadTask.messageProperty().addListener((obs, oldMsg, newMsg) -> {
+                                javafx.application.Platform.runLater(() -> {
+                                    String text = outputArea.getText();
+                                    int lastLineIdx = text.lastIndexOf('\n');
+                                    if (lastLineIdx >= 0) {
+                                        outputArea.replaceText(lastLineIdx + 1, text.length(), "    " + newMsg);
+                                    } else {
+                                        outputArea.setText("    " + newMsg);
+                                    }
+                                });
+                            });
                             downloadTask.setOnSucceeded(e -> {
-                                progressBar.progressProperty().unbind();
-                                progressBar.setProgress(0);
-                                outputArea.appendText("    File downloaded: " + parts[1] + " → " + parts[2] + "\n");
+                                outputArea.appendText("\n    File downloaded: " + parts[1] + " → " + parts[2] + "\n");
                                 logger.info("File downloaded: {} → {}", parts[1], parts[2]);
                             });
                             downloadTask.setOnFailed(e -> {
-                                progressBar.progressProperty().unbind();
-                                progressBar.setProgress(0);
-                                outputArea.appendText("    Download failed: " + downloadTask.getException().getMessage() + "\n");
+                                outputArea.appendText("\n    Download failed: " + downloadTask.getException().getMessage() + "\n");
                             });
                             new Thread(downloadTask).start();
                         }
@@ -221,6 +226,7 @@ public class ShellController {
                             logger.warn("put command usage error: local or remote file not specified");
                         } else {
                             File file = new File(parts[1]);
+                            outputArea.appendText("    Uploading " + parts[1] + " ...\n");
                             Task<Void> uploadTask = new Task<>() {
                                 @Override
                                 protected Void call() throws Exception {
@@ -229,33 +235,40 @@ public class ShellController {
                                         private long count = 0;
                                         @Override
                                         public void init(int op, String src, String dest, long max) {
-                                            updateProgress(0, max);
+                                            updateMessage("[0%]");
                                         }
                                         @Override
                                         public boolean count(long bytes) {
                                             count += bytes;
-                                            updateProgress(count, max);
+                                            int percent = (int)((count * 100) / max);
+                                            updateMessage("[" + percent + "%]");
                                             return true;
                                         }
                                         @Override
                                         public void end() {
-                                            updateProgress(max, max);
+                                            updateMessage("[100%]");
                                         }
                                     });
                                     return null;
                                 }
                             };
-                            progressBar.progressProperty().bind(uploadTask.progressProperty());
+                            uploadTask.messageProperty().addListener((obs, oldMsg, newMsg) -> {
+                                javafx.application.Platform.runLater(() -> {
+                                    String text = outputArea.getText();
+                                    int lastLineIdx = text.lastIndexOf('\n');
+                                    if (lastLineIdx >= 0) {
+                                        outputArea.replaceText(lastLineIdx + 1, text.length(), "    " + newMsg);
+                                    } else {
+                                        outputArea.setText("    " + newMsg);
+                                    }
+                                });
+                            });
                             uploadTask.setOnSucceeded(e -> {
-                                progressBar.progressProperty().unbind();
-                                progressBar.setProgress(0);
-                                outputArea.appendText("    File uploaded: " + parts[1] + " → " + parts[2] + "\n");
+                                outputArea.appendText("\n    File uploaded: " + parts[1] + " → " + parts[2] + "\n");
                                 logger.info("File uploaded: {} → {}", parts[1], parts[2]);
                             });
                             uploadTask.setOnFailed(e -> {
-                                progressBar.progressProperty().unbind();
-                                progressBar.setProgress(0);
-                                outputArea.appendText("    Upload failed: " + uploadTask.getException().getMessage() + "\n");
+                                outputArea.appendText("\n    Upload failed: " + uploadTask.getException().getMessage() + "\n");
                             });
                             new Thread(uploadTask).start();
                         }

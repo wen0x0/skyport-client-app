@@ -34,7 +34,7 @@ public class FileBrowserController {
     @FXML
     private Label serverInfoLabel;
     @FXML
-    private ProgressBar progressBar; 
+    private ProgressBar progressBar;
 
     private SFTPClient client;
     private String currentDir = ".";
@@ -45,7 +45,7 @@ public class FileBrowserController {
         this.client = client;
         try {
             currentDir = client.pwd();
-            homeDir = currentDir; 
+            homeDir = currentDir;
             String user = client.session.getUserName();
             String host = client.session.getHost();
             int port = client.session.getPort();
@@ -64,7 +64,8 @@ public class FileBrowserController {
     }
 
     private void refreshFileList() {
-        if (client == null) return;
+        if (client == null)
+            return;
         try {
             ObservableList<String> items = FXCollections.observableArrayList();
             Vector<ChannelSftp.LsEntry> entries = client.ls(currentDir);
@@ -86,7 +87,8 @@ public class FileBrowserController {
 
     @FXML
     private void upload() {
-        if (client == null) return;
+        if (client == null)
+            return;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select file to upload");
         File file = fileChooser.showOpenDialog(fileListView.getScene().getWindow());
@@ -95,27 +97,41 @@ public class FileBrowserController {
             Task<Void> uploadTask = new Task<>() {
                 @Override
                 protected Void call() throws Exception {
-                    client.put(file.getAbsolutePath(), remote, new SftpProgressMonitor() {
-                        private long max = file.length();
-                        private long count = 0;
-                        @Override
-                        public void init(int op, String src, String dest, long max) {
-                            updateProgress(0, max);
+                    ChannelSftp channel = null;
+                    try {
+                        channel = (ChannelSftp) client.session.openChannel("sftp");
+                        channel.connect();
+
+                        channel.put(file.getAbsolutePath(), remote, new SftpProgressMonitor() {
+                            private long max = file.length();
+                            private long count = 0;
+
+                            @Override
+                            public void init(int op, String src, String dest, long max) {
+                                updateProgress(0, max);
+                            }
+
+                            @Override
+                            public boolean count(long bytes) {
+                                count += bytes;
+                                updateProgress(count, max);
+                                return true;
+                            }
+
+                            @Override
+                            public void end() {
+                                updateProgress(max, max);
+                            }
+                        });
+                    } finally {
+                        if (channel != null && channel.isConnected()) {
+                            channel.disconnect();
                         }
-                        @Override
-                        public boolean count(long bytes) {
-                            count += bytes;
-                            updateProgress(count, max);
-                            return true;
-                        }
-                        @Override
-                        public void end() {
-                            updateProgress(max, max);
-                        }
-                    });
+                    }
                     return null;
                 }
             };
+
             progressBar.progressProperty().bind(uploadTask.progressProperty());
             uploadTask.setOnSucceeded(e -> {
                 progressBar.progressProperty().unbind();
@@ -132,12 +148,13 @@ public class FileBrowserController {
         }
     }
 
-
     @FXML
     private void download() {
-        if (client == null) return;
+        if (client == null)
+            return;
         String selected = fileListView.getSelectionModel().getSelectedItem();
-        if (selected == null) return;
+        if (selected == null)
+            return;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save file as");
         fileChooser.setInitialFileName(selected);
@@ -148,38 +165,52 @@ public class FileBrowserController {
             Task<Void> downloadTask = new Task<>() {
                 @Override
                 protected Void call() throws Exception {
-                    client.get(remote, local, new SftpProgressMonitor() {
-                        private long max = 1;
-                        private long count = 0;
-                        @Override
-                        public void init(int op, String src, String dest, long max) {
-                            this.max = max > 0 ? max : 1;
-                            updateProgress(0, this.max);
+                    ChannelSftp channel = null;
+                    try {
+                        channel = (ChannelSftp) client.session.openChannel("sftp");
+                        channel.connect();
+
+                        channel.get(remote, local, new SftpProgressMonitor() {
+                            private long max = 1;
+                            private long count = 0;
+
+                            @Override
+                            public void init(int op, String src, String dest, long max) {
+                                this.max = max > 0 ? max : 1;
+                                updateProgress(0, this.max);
+                            }
+
+                            @Override
+                            public boolean count(long bytes) {
+                                count += bytes;
+                                updateProgress(count, max);
+                                return true;
+                            }
+
+                            @Override
+                            public void end() {
+                                updateProgress(max, max);
+                            }
+                        });
+                    } finally {
+                        if (channel != null && channel.isConnected()) {
+                            channel.disconnect();
                         }
-                        @Override
-                        public boolean count(long bytes) {
-                            count += bytes;
-                            updateProgress(count, max);
-                            return true;
-                        }
-                        @Override
-                        public void end() {
-                            updateProgress(max, max);
-                        }
-                    });
+                    }
                     return null;
                 }
             };
+
             progressBar.progressProperty().bind(downloadTask.progressProperty());
             downloadTask.setOnSucceeded(e -> {
                 progressBar.progressProperty().unbind();
                 progressBar.setProgress(0);
-                showAlert("Download", "Download thành công!", true);
+                showAlert("Download", "Download successful!", true);
             });
             downloadTask.setOnFailed(e -> {
                 progressBar.progressProperty().unbind();
                 progressBar.setProgress(0);
-                showAlert("Download", "Download thất bại: " + downloadTask.getException().getMessage(), false);
+                showAlert("Download", "Download failed: " + downloadTask.getException().getMessage(), false);
             });
             new Thread(downloadTask).start();
         }
@@ -187,7 +218,8 @@ public class FileBrowserController {
 
     @FXML
     private void delete() {
-        if (client == null) return;
+        if (client == null)
+            return;
         String selected = fileListView.getSelectionModel().getSelectedItem();
         if (selected == null) {
             statusLabel.setText("Select a file or folder to delete.");
@@ -236,10 +268,11 @@ public class FileBrowserController {
             Parent shellRoot = loader.load();
             ShellController shellController = loader.getController();
             shellController.setClient(client);
-            shellController.setConnectionInfo(client.session.getUserName(), client.session.getHost(), client.session.getPort());
+            shellController.setConnectionInfo(client.session.getUserName(), client.session.getHost(),
+                    client.session.getPort());
 
             Stage shellStage = new Stage();
-            shellStage.setScene(new Scene(shellRoot, 700, 400)); 
+            shellStage.setScene(new Scene(shellRoot, 700, 400));
             shellStage.setTitle("Skyport Terminal");
             shellStage.show();
         } catch (Exception e) {
@@ -291,9 +324,9 @@ public class FileBrowserController {
         });
     }
 
-    // Thêm hàm formatSize vào class
     private String formatSize(long size) {
-        if (size < 1024) return size + " B";
+        if (size < 1024)
+            return size + " B";
         int exp = (int) (Math.log(size) / Math.log(1024));
         String pre = "KMGTPE".charAt(exp - 1) + "B";
         return String.format("%.1f %s", size / Math.pow(1024, exp), pre);
@@ -301,7 +334,8 @@ public class FileBrowserController {
 
     @FXML
     private void mkdir() {
-        if (client == null) return;
+        if (client == null)
+            return;
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Create New Folder");
         dialog.setHeaderText("Enter folder name:");
@@ -326,7 +360,8 @@ public class FileBrowserController {
 
     @FXML
     private void goHome() {
-        if (client == null || homeDir == null) return;
+        if (client == null || homeDir == null)
+            return;
         try {
             dirHistory.push(currentDir);
             client.cd(homeDir);
@@ -341,7 +376,8 @@ public class FileBrowserController {
 
     @FXML
     private void goBack() {
-        if (client == null || dirHistory.isEmpty()) return;
+        if (client == null || dirHistory.isEmpty())
+            return;
         try {
             String prevDir = dirHistory.pop();
             client.cd(prevDir);

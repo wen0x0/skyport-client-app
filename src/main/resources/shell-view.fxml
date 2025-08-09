@@ -34,9 +34,6 @@
                              -fx-faint-focus-color: transparent;" />
 
 
-            <ProgressBar fx:id="progressBar" prefWidth="400" progress="0"
-                style="-fx-accent: #61dafb;" />
-
         </ScrollPane>
 
         <!-- Command Input Area -->
