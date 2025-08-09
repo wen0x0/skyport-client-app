@@ -1,55 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="com.example.SFTPClientController"
-    spacing="15" alignment="CENTER" style="-fx-padding: 30; -fx-background-color: #f8f9fa;">
+    spacing="0" alignment="CENTER"
+    style="-fx-background-color: linear-gradient(to bottom, #667eea 0%, #764ba2 100%);">
 
-    <!-- Header -->
-    <Label text="Skyport Client" style="-fx-font-size: 28px; -fx-font-weight: bold;" />
-    <Label text="Secure SFTP Connection" style="-fx-font-size: 14px; -fx-text-fill: #666;" />
+    <!-- Main Container -->
+    <VBox spacing="18" alignment="CENTER" maxWidth="400"
+        style="-fx-padding: 25 25 25 25; -fx-background-color: rgba(255,255,255,0.95); 
+               -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 15, 0, 0, 3);">
 
-    <!-- Form -->
-    <VBox spacing="10" maxWidth="350" alignment="CENTER"
-        style="-fx-padding: 20; -fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;">
+        <!-- Header Section -->
+        <VBox spacing="6" alignment="CENTER">
+            <Label text="Skyport Client"
+                style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+            <Label text="Secure SFTP Connection"
+                style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d; -fx-font-weight: 500;" />
+        </VBox>
 
-        <Label text="Server Configuration" style="-fx-font-weight: bold;" />
+        <!-- Server Configuration Section -->
+        <VBox spacing="12" alignment="CENTER" style="-fx-padding: 8 0 0 0;">
+            <Label text="Server Configuration"
+                style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #34495e;" />
 
-        <TextField fx:id="ipAddressField"
-            promptText="Server Address (e.g. 192.168.1.100 or example.com)"
-            prefWidth="300" />
+            <TextField fx:id="ipAddressField"
+                promptText="Server Address (e.g. 192.168.1.100)"
+                prefWidth="340" prefHeight="35"
+                style="-fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-radius: 5;
+                       -fx-padding: 0 10 0 10; -fx-font-size: 12px;
+                       -fx-focus-color: #3498db; -fx-faint-focus-color: transparent;" />
 
-        <HBox spacing="10">
-            <TextField fx:id="portField" promptText="Port" text="22" prefWidth="80" />
-            <TextField fx:id="knownHostsField" promptText="Known Hosts Path" HBox.hgrow="ALWAYS" />
-            <Button fx:id="browseButton" onAction="#browseKnownHosts" text="..." />
-        </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <TextField fx:id="portField" promptText="Port" text="22"
+                    prefWidth="75" prefHeight="35"
+                    style="-fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-radius: 5;
+                           -fx-padding: 0 8 0 8; -fx-font-size: 12px;
+                           -fx-focus-color: #3498db; -fx-faint-focus-color: transparent;" />
 
-        <Label text="Authentication" style="-fx-font-weight: bold;" />
+                <TextField fx:id="knownHostsField" promptText="Known Hosts Path"
+                    HBox.hgrow="ALWAYS" prefHeight="35"
+                    style="-fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-radius: 5;
+                           -fx-padding: 0 10 0 10; -fx-font-size: 12px;
+                           -fx-focus-color: #3498db; -fx-faint-focus-color: transparent;" />
 
-        <TextField fx:id="usernameField" promptText="Username" prefWidth="300" />
-        <PasswordField fx:id="passwordField" promptText="Password" prefWidth="300" />
+                <Button fx:id="browseButton" onAction="#browseKnownHosts" text="..."
+                    prefWidth="35" prefHeight="35"
+                    style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-border-radius: 5;
+                           -fx-font-size: 12px; -fx-font-weight: bold;" />
+            </HBox>
+        </VBox>
 
-        <HBox spacing="15">
-            <CheckBox fx:id="savePasswordCheckBox" text="Remember password" />
-            <CheckBox fx:id="autoConnectCheckBox" text="Auto-connect" />
-        </HBox>
+        <!-- Authentication Section -->
+        <VBox spacing="12" alignment="CENTER" style="-fx-padding: 5 0 0 0;">
+            <Label text="Authentication"
+                style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #34495e;" />
 
-        <HBox spacing="10" alignment="CENTER">
-            <Button fx:id="testConnectionButton" onAction="#testConnection" text="Test" />
-            <Button fx:id="connectButton" onAction="#connect" text="Connect"
-                style="-fx-background-color: #007bff; -fx-text-fill: white;" />
-            <Button fx:id="cancelButton" onAction="#cancel" text="Cancel" />
-        </HBox>
+            <TextField fx:id="usernameField" promptText="Username"
+                prefWidth="340" prefHeight="35"
+                style="-fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-radius: 5;
+                       -fx-padding: 0 10 0 10; -fx-font-size: 12px;
+                       -fx-focus-color: #3498db; -fx-faint-focus-color: transparent;" />
 
-        <ProgressIndicator fx:id="loadingSpinner" visible="false" prefWidth="30" prefHeight="30" />
+            <PasswordField fx:id="passwordField" promptText="Password"
+                prefWidth="340" prefHeight="35"
+                style="-fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-radius: 5;
+                       -fx-padding: 0 10 0 10; -fx-font-size: 12px;
+                       -fx-focus-color: #3498db; -fx-faint-focus-color: transparent;" />
+        </VBox>
+
+        <!-- Options & Actions Combined -->
+        <VBox spacing="12" alignment="CENTER" style="-fx-padding: 3 0 0 0;">
+            <HBox spacing="20" alignment="CENTER">
+                <CheckBox fx:id="savePasswordCheckBox" text="Remember password"
+                    style="-fx-font-size: 11px; -fx-text-fill: #5a6c7d;" />
+                <CheckBox fx:id="autoConnectCheckBox" text="Auto-connect"
+                    style="-fx-font-size: 11px; -fx-text-fill: #5a6c7d;" />
+            </HBox>
+
+            <HBox spacing="12" alignment="CENTER">
+                <Button fx:id="testConnectionButton" onAction="#testConnection" text="Test"
+                    prefWidth="75" prefHeight="35"
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-border-radius: 5;
+                           -fx-font-size: 12px; -fx-font-weight: 500;" />
+
+                <Button fx:id="connectButton" onAction="#connect" text="Connect"
+                    prefWidth="90" prefHeight="35"
+                    style="-fx-background-color: linear-gradient(to bottom, #3498db, #2980b9); 
+                           -fx-text-fill: white; -fx-border-radius: 5;
+                           -fx-font-size: 13px; -fx-font-weight: bold;" />
+
+                <Button fx:id="cancelButton" onAction="#cancel" text="Cancel"
+                    prefWidth="75" prefHeight="35"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-border-radius: 5;
+                           -fx-font-size: 12px; -fx-font-weight: 500;" />
+            </HBox>
+        </VBox>
+
+        <!-- Loading Indicator -->
+        <ProgressIndicator fx:id="loadingSpinner" visible="false"
+            prefWidth="28" prefHeight="28"
+            style="-fx-progress-color: #3498db;" />
+
+        <!-- Footer Section -->
+        <VBox spacing="3" alignment="CENTER" style="-fx-padding: 8 0 0 0;">
+            <Label text="Secure File Transfer Protocol Client"
+                style="-fx-font-size: 10px; -fx-text-fill: #95a5a6; -fx-font-weight: 500;" />
+            <Label text="Ensure your SFTP server is accessible"
+                style="-fx-font-size: 9px; -fx-text-fill: #bdc3c7;" />
+        </VBox>
     </VBox>
-
-    <!-- Footer -->
-    <Label text="Secure File Transfer Protocol Client"
-        style="-fx-font-size: 12px; -fx-text-fill: #888;" />
-    <Label text="Ensure your SFTP server is accessible on the network"
-        style="-fx-font-size: 11px; -fx-text-fill: #aaa;" />
-
 </VBox>

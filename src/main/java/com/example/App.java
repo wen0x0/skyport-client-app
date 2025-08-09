@@ -22,7 +22,6 @@ public class App extends Application {
         primaryStage.setTitle("Skyport Client");
 
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        primaryStage.setHeight(screenBounds.getHeight());
 
         primaryStage.setX((screenBounds.getWidth() - primaryStage.getWidth()) / 2);
         primaryStage.setY(0);

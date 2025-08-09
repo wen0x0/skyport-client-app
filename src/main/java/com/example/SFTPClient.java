@@ -1,6 +1,7 @@
 package com.example;
 
 import com.jcraft.jsch.*;
+import com.jcraft.jsch.SftpProgressMonitor;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -195,6 +196,14 @@ public class SFTPClient {
 
     public void mkdir(String remote) throws SftpException {
         sftpChannel.mkdir(remote);
+    }
+
+    public void put(String local, String remote, SftpProgressMonitor monitor) throws SftpException {
+        sftpChannel.put(local, remote, monitor, ChannelSftp.OVERWRITE);
+    }
+
+    public void get(String remote, String local, SftpProgressMonitor monitor) throws SftpException {
+        sftpChannel.get(remote, local, monitor, ChannelSftp.OVERWRITE);
     }
 
 }

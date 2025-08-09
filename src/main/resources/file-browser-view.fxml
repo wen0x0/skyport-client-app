@@ -60,6 +60,9 @@
                     <Label fx:id="statusLabel" text="" />
                 </VBox>
             </HBox>
+
+            <!-- Progress Bar -->
+            <ProgressBar fx:id="progressBar" prefWidth="300" progress="0" />
         </VBox>
     </center>
 

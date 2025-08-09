@@ -4,6 +4,7 @@ import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
@@ -11,6 +12,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import javafx.concurrent.Task;
+import java.io.File;
 
 public class ShellController {
     private static final Logger logger = LoggerFactory.getLogger(ShellController.class);
@@ -22,6 +25,8 @@ public class ShellController {
     private Label statusIndicator;
     @FXML
     private Label userLabel;
+    @FXML
+    private ProgressBar progressBar; 
 
     private Timeline blinkTimeline;
     private int commandCount = 0;
@@ -63,17 +68,6 @@ public class ShellController {
         if (blinkTimeline != null) {
             blinkTimeline.stop();
         }
-
-        String connectMsg = """
-                ╔═══════════════════════════════════════════════════════════════╗
-                ║                 SFTP Connection Established                   ║
-                ║                                                               ║
-                ║  You are now connected to the SFTP server.                    ║
-                ║  Type 'help' to see available SFTP commands.                  ║
-                ╚═══════════════════════════════════════════════════════════════╝
-                """;
-        outputArea.appendText(connectMsg);
-
     }
 
     private void displayWelcomeMessage() {
@@ -107,16 +101,16 @@ public class ShellController {
         String command = commandField.getText().trim();
         if (!command.isEmpty()) {
             commandCount++;
-            // Hiển thị command với styling
+         
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
             outputArea.appendText(String.format("┌─ [%s] Command #%d\n", timestamp, commandCount));
             outputArea.appendText(String.format("│  %s@terminal > %s\n", username, command));
             outputArea.appendText("└─ Output:\n");
-            // Xử lý command
+        
             processCommand(command);
-            // Thêm separator
+        
             outputArea.appendText("\n" + "─".repeat(60) + "\n\n");
-            // Xóa command field
+        
             commandField.clear();
         }
     }
@@ -126,7 +120,6 @@ public class ShellController {
         String mainCommand = parts[0].toLowerCase();
 
         try {
-            // SFTP Commands (if connected)
             if (isConnected && client != null) {
                 switch (mainCommand) {
                     case "pwd":
@@ -181,9 +174,44 @@ public class ShellController {
                             outputArea.appendText("    Usage: get <remote_file> <local_file>\n");
                             logger.warn("get command usage error: remote or local file not specified");
                         } else {
-                            client.get(parts[1], parts[2]);
-                            outputArea.appendText("    File downloaded: " + parts[1] + " → " + parts[2] + "\n");
-                            logger.info("File downloaded: {} → {}", parts[1], parts[2]);
+                            Task<Void> downloadTask = new Task<>() {
+                                @Override
+                                protected Void call() throws Exception {
+                                    client.get(parts[1], parts[2], new com.jcraft.jsch.SftpProgressMonitor() {
+                                        private long max = 1;
+                                        private long count = 0;
+                                        @Override
+                                        public void init(int op, String src, String dest, long max) {
+                                            this.max = max > 0 ? max : 1;
+                                            updateProgress(0, this.max);
+                                        }
+                                        @Override
+                                        public boolean count(long bytes) {
+                                            count += bytes;
+                                            updateProgress(count, max);
+                                            return true;
+                                        }
+                                        @Override
+                                        public void end() {
+                                            updateProgress(max, max);
+                                        }
+                                    });
+                                    return null;
+                                }
+                            };
+                            progressBar.progressProperty().bind(downloadTask.progressProperty());
+                            downloadTask.setOnSucceeded(e -> {
+                                progressBar.progressProperty().unbind();
+                                progressBar.setProgress(0);
+                                outputArea.appendText("    File downloaded: " + parts[1] + " → " + parts[2] + "\n");
+                                logger.info("File downloaded: {} → {}", parts[1], parts[2]);
+                            });
+                            downloadTask.setOnFailed(e -> {
+                                progressBar.progressProperty().unbind();
+                                progressBar.setProgress(0);
+                                outputArea.appendText("    Download failed: " + downloadTask.getException().getMessage() + "\n");
+                            });
+                            new Thread(downloadTask).start();
                         }
                         return;
                     case "put":
@@ -192,9 +220,44 @@ public class ShellController {
                             outputArea.appendText("    Usage: put <local_file> <remote_file>\n");
                             logger.warn("put command usage error: local or remote file not specified");
                         } else {
-                            client.put(parts[1], parts[2]);
-                            outputArea.appendText("    File uploaded: " + parts[1] + " → " + parts[2] + "\n");
-                            logger.info("File uploaded: {} → {}", parts[1], parts[2]);
+                            File file = new File(parts[1]);
+                            Task<Void> uploadTask = new Task<>() {
+                                @Override
+                                protected Void call() throws Exception {
+                                    client.put(parts[1], parts[2], new com.jcraft.jsch.SftpProgressMonitor() {
+                                        private long max = file.length();
+                                        private long count = 0;
+                                        @Override
+                                        public void init(int op, String src, String dest, long max) {
+                                            updateProgress(0, max);
+                                        }
+                                        @Override
+                                        public boolean count(long bytes) {
+                                            count += bytes;
+                                            updateProgress(count, max);
+                                            return true;
+                                        }
+                                        @Override
+                                        public void end() {
+                                            updateProgress(max, max);
+                                        }
+                                    });
+                                    return null;
+                                }
+                            };
+                            progressBar.progressProperty().bind(uploadTask.progressProperty());
+                            uploadTask.setOnSucceeded(e -> {
+                                progressBar.progressProperty().unbind();
+                                progressBar.setProgress(0);
+                                outputArea.appendText("    File uploaded: " + parts[1] + " → " + parts[2] + "\n");
+                                logger.info("File uploaded: {} → {}", parts[1], parts[2]);
+                            });
+                            uploadTask.setOnFailed(e -> {
+                                progressBar.progressProperty().unbind();
+                                progressBar.setProgress(0);
+                                outputArea.appendText("    Upload failed: " + uploadTask.getException().getMessage() + "\n");
+                            });
+                            new Thread(uploadTask).start();
                         }
                         return;
                     case "disconnect":

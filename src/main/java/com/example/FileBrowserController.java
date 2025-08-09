@@ -6,11 +6,14 @@ import javafx.stage.Stage;
 import javafx.stage.FileChooser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpException;
+import com.jcraft.jsch.SftpProgressMonitor;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
@@ -30,6 +33,8 @@ public class FileBrowserController {
     private Label fileInfoLabel;
     @FXML
     private Label serverInfoLabel;
+    @FXML
+    private ProgressBar progressBar; 
 
     private SFTPClient client;
     private String currentDir = ".";
@@ -40,7 +45,7 @@ public class FileBrowserController {
         this.client = client;
         try {
             currentDir = client.pwd();
-            homeDir = currentDir; // Lưu lại homeDir khi login
+            homeDir = currentDir; 
             String user = client.session.getUserName();
             String host = client.session.getHost();
             int port = client.session.getPort();
@@ -86,39 +91,97 @@ public class FileBrowserController {
         fileChooser.setTitle("Select file to upload");
         File file = fileChooser.showOpenDialog(fileListView.getScene().getWindow());
         if (file != null) {
-            try {
-                client.put(file.getAbsolutePath(), currentDir + "/" + file.getName());
-                statusLabel.setText("Uploaded: " + file.getName());
-                logger.info("Uploaded file: {}", file.getName());
+            String remote = currentDir + "/" + file.getName();
+            Task<Void> uploadTask = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    client.put(file.getAbsolutePath(), remote, new SftpProgressMonitor() {
+                        private long max = file.length();
+                        private long count = 0;
+                        @Override
+                        public void init(int op, String src, String dest, long max) {
+                            updateProgress(0, max);
+                        }
+                        @Override
+                        public boolean count(long bytes) {
+                            count += bytes;
+                            updateProgress(count, max);
+                            return true;
+                        }
+                        @Override
+                        public void end() {
+                            updateProgress(max, max);
+                        }
+                    });
+                    return null;
+                }
+            };
+            progressBar.progressProperty().bind(uploadTask.progressProperty());
+            uploadTask.setOnSucceeded(e -> {
+                progressBar.progressProperty().unbind();
+                progressBar.setProgress(0);
                 refreshFileList();
-            } catch (Exception e) {
-                statusLabel.setText("Upload failed: " + e.getMessage());
-                logger.error("Upload failed: {}", e.getMessage());
-            }
+                showAlert("Upload", "Upload thành công!", true);
+            });
+            uploadTask.setOnFailed(e -> {
+                progressBar.progressProperty().unbind();
+                progressBar.setProgress(0);
+                showAlert("Upload", "Upload thất bại: " + uploadTask.getException().getMessage(), false);
+            });
+            new Thread(uploadTask).start();
         }
     }
+
 
     @FXML
     private void download() {
         if (client == null) return;
         String selected = fileListView.getSelectionModel().getSelectedItem();
-        if (selected == null || selected.endsWith("/")) {
-            statusLabel.setText("Select a file to download.");
-            return;
-        }
+        if (selected == null) return;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save file as");
         fileChooser.setInitialFileName(selected);
         File file = fileChooser.showSaveDialog(fileListView.getScene().getWindow());
         if (file != null) {
-            try {
-                client.get(currentDir + "/" + selected, file.getAbsolutePath());
-                statusLabel.setText("Downloaded: " + selected);
-                logger.info("Downloaded file: {}", selected);
-            } catch (Exception e) {
-                statusLabel.setText("Download failed: " + e.getMessage());
-                logger.error("Download failed: {}", e.getMessage());
-            }
+            String remote = currentDir + "/" + selected;
+            String local = file.getAbsolutePath();
+            Task<Void> downloadTask = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    client.get(remote, local, new SftpProgressMonitor() {
+                        private long max = 1;
+                        private long count = 0;
+                        @Override
+                        public void init(int op, String src, String dest, long max) {
+                            this.max = max > 0 ? max : 1;
+                            updateProgress(0, this.max);
+                        }
+                        @Override
+                        public boolean count(long bytes) {
+                            count += bytes;
+                            updateProgress(count, max);
+                            return true;
+                        }
+                        @Override
+                        public void end() {
+                            updateProgress(max, max);
+                        }
+                    });
+                    return null;
+                }
+            };
+            progressBar.progressProperty().bind(downloadTask.progressProperty());
+            downloadTask.setOnSucceeded(e -> {
+                progressBar.progressProperty().unbind();
+                progressBar.setProgress(0);
+                showAlert("Download", "Download thành công!", true);
+            });
+            downloadTask.setOnFailed(e -> {
+                progressBar.progressProperty().unbind();
+                progressBar.setProgress(0);
+                showAlert("Download", "Download thất bại: " + downloadTask.getException().getMessage(), false);
+            });
+            new Thread(downloadTask).start();
         }
     }
 
@@ -289,5 +352,13 @@ public class FileBrowserController {
             statusLabel.setText("Failed to go back: " + e.getMessage());
             logger.error("Failed to go back: {}", e.getMessage());
         }
+    }
+
+    private void showAlert(String title, String message, boolean success) {
+        Alert alert = new Alert(success ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
