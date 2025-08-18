@@ -3,6 +3,10 @@ package com.example;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -330,6 +334,59 @@ public class SFTPClientController {
         } else {
             logger.info("No known_hosts file selected.");
         }
+    }
+
+    @FXML
+    private void browseSKPFile() {
+        javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+        fileChooser.setTitle("Select .skp Config File");
+        fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("SKP Files", "*.skp"));
+        Stage stage = (Stage) ipAddressField.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            try {
+                parseSKPFile(file);
+                showAlert("Loaded", "Loaded config from " + file.getName(), true);
+            } catch (Exception e) {
+                logger.error("Failed to parse .skp file: {}", e.getMessage(), e);
+                showAlert("Error", "Failed to load .skp file: " + e.getMessage(), false);
+            }
+        }
+    }
+
+    private void parseSKPFile(File skpFile) throws Exception {
+        String content = new String(Files.readAllBytes(skpFile.toPath()));
+
+        Pattern ipPattern = Pattern.compile("server_ip\\s*=\\s*([\\d.]+)");
+        Pattern portPattern = Pattern.compile("server_port\\s*=\\s*(\\d+)");
+        Pattern keyTypePattern = Pattern.compile("ssh_key_type\\s*=\\s*([\\w-]+)");
+        Pattern pubKeyPattern = Pattern.compile("server_pub_key\\s*=\\s*\"\"\"([\\s\\S]+?)\"\"\"", Pattern.MULTILINE);
+
+        String ip = findFirst(ipPattern, content);
+        String port = findFirst(portPattern, content);
+        String keyType = findFirst(keyTypePattern, content);
+        String pubKey = findFirst(pubKeyPattern, content);
+
+ 
+        if (ip != null) ipAddressField.setText(ip.trim());
+        if (port != null) portField.setText(port.trim());
+
+        if (pubKey != null && keyType != null && ip != null) {
+            File keysDir = new File("keys");
+            if (!keysDir.exists()) keysDir.mkdirs();
+            String keyFileName = ip + "_" + keyType + ".pub";
+            File pubKeyFile = new File(keysDir, keyFileName);
+            Files.write(pubKeyFile.toPath(), pubKey.trim().getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            knownHostsField.setText(pubKeyFile.getAbsolutePath());
+        }
+    }
+
+    private String findFirst(Pattern pattern, String content) {
+        Matcher matcher = pattern.matcher(content);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
     }
 
     private String getKnownHostsPath() {

@@ -26,9 +26,22 @@
             <Label text="Server Configuration"
                 style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #34495e;" />
 
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Import config:" style="-fx-font-size: 11px; -fx-text-fill: #5a6c7d;" />
+                <Button fx:id="browseSKPButton" onAction="#browseSKPFile" text=".skp"
+                    prefWidth="48" prefHeight="28"
+                    style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-border-radius: 5;
+                           -fx-font-size: 11px; -fx-font-weight: bold;" >
+                    <tooltip>
+                        <Tooltip text="Load server config from .skp file"/>
+                    </tooltip>
+                </Button>
+            </HBox>
+
             <TextField fx:id="ipAddressField"
                 promptText="Server Address (e.g. 192.168.1.100)"
                 prefWidth="340" prefHeight="35"
+                disable="true"
                 style="-fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-radius: 5;
                        -fx-padding: 0 10 0 10; -fx-font-size: 12px;
                        -fx-focus-color: #3498db; -fx-faint-focus-color: transparent;" />
@@ -36,18 +49,21 @@
             <HBox spacing="10" alignment="CENTER">
                 <TextField fx:id="portField" promptText="Port" text="22"
                     prefWidth="75" prefHeight="35"
+                    disable="true"
                     style="-fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-radius: 5;
                            -fx-padding: 0 8 0 8; -fx-font-size: 12px;
                            -fx-focus-color: #3498db; -fx-faint-focus-color: transparent;" />
 
                 <TextField fx:id="knownHostsField" promptText="Known Hosts Path"
                     HBox.hgrow="ALWAYS" prefHeight="35"
+                    disable="true"
                     style="-fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-radius: 5;
                            -fx-padding: 0 10 0 10; -fx-font-size: 12px;
                            -fx-focus-color: #3498db; -fx-faint-focus-color: transparent;" />
 
                 <Button fx:id="browseButton" onAction="#browseKnownHosts" text="..."
                     prefWidth="35" prefHeight="35"
+                    disable="true"
                     style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-border-radius: 5;
                            -fx-font-size: 12px; -fx-font-weight: bold;" />
             </HBox>
