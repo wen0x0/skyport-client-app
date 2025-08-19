@@ -31,6 +31,9 @@ public class ConnectionFormController {
     @FXML
     private ProgressIndicator loadingSpinner;
 
+    @FXML
+    private Label skpFileNameLabel; 
+
     private String ip, knownHosts;
     private int port;
     private SFTPClient client;
@@ -299,6 +302,7 @@ public class ConnectionFormController {
         if (file != null) {
             try {
                 parseSKPFile(file);
+                skpFileNameLabel.setText(file.getName());
                 showAlert("Loaded", "Loaded config from " + file.getName(), true);
             } catch (Exception e) {
                 logger.error("Failed to parse .skp file: {}", e.getMessage(), e);
@@ -326,7 +330,6 @@ public class ConnectionFormController {
 
         port = Integer.parseInt(portStr.trim());
 
-        // Xuất public key ra thư mục keys/
         File keysDir = new File("keys");
         if (!keysDir.exists()) keysDir.mkdirs();
         String keyFileName = ip + "_" + keyType + ".pub";

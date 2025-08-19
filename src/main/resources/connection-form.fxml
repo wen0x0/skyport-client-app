@@ -28,12 +28,13 @@
                 <Label style="-fx-font-size: 11px; -fx-text-fill: #555;" text="Import config:" />
                 <Button fx:id="browseSKPButton" onAction="#browseSKPFile" prefHeight="28"
                     prefWidth="110"
-                    style="-fx-background-color: #4f46e5; -fx-text-fill: white; -fx-background-radius: 4;                            -fx-font-size: 11px; -fx-font-weight: 500; -fx-cursor: hand;"
+                    style="-fx-background-color: #4f46e5; -fx-text-fill: white; -fx-background-radius: 4; -fx-font-size: 11px; -fx-font-weight: 500; -fx-cursor: hand;"
                     text="Browse file .skp">
                     <tooltip>
                         <Tooltip text="Browse file .skp" />
                     </tooltip>
                 </Button>
+                <Label fx:id="skpFileNameLabel" text="" style="-fx-font-size: 11px; -fx-text-fill: #10b981;" />
             </HBox>
 
             <!-- Auth -->
