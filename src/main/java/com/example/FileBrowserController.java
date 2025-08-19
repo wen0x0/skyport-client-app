@@ -248,12 +248,19 @@ public class FileBrowserController {
         if (client != null) {
             client.disconnect();
         }
-        Stage stage = (Stage) fileListView.getScene().getWindow();
+
         try {
+            Stage oldStage = (Stage) fileListView.getScene().getWindow();
+            oldStage.close();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/connection-form.fxml"));
             Parent root = loader.load();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Skyport Client");
+
+            Stage loginStage = new Stage();
+            loginStage.setScene(new Scene(root));
+            loginStage.setTitle("Skyport Client");
+            loginStage.show();
+
         } catch (Exception e) {
             statusLabel.setText("Failed to logout: " + e.getMessage());
             logger.error("Failed to logout: {}", e.getMessage());
