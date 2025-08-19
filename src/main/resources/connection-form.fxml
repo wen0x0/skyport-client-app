@@ -34,7 +34,6 @@
                         <Tooltip text="Browse file .skp" />
                     </tooltip>
                 </Button>
-                <Label fx:id="skpFileNameLabel" text="" style="-fx-font-size: 11px; -fx-text-fill: #10b981;" />
             </HBox>
 
             <!-- Auth -->

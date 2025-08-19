@@ -32,7 +32,7 @@ public class ConnectionFormController {
     private ProgressIndicator loadingSpinner;
 
     @FXML
-    private Label skpFileNameLabel; 
+    private Button browseSKPButton;
 
     private String ip, knownHosts;
     private int port;
@@ -302,7 +302,8 @@ public class ConnectionFormController {
         if (file != null) {
             try {
                 parseSKPFile(file);
-                skpFileNameLabel.setText(file.getName());
+                // Đổi text nút thành tên file
+                browseSKPButton.setText(file.getName());
                 showAlert("Loaded", "Loaded config from " + file.getName(), true);
             } catch (Exception e) {
                 logger.error("Failed to parse .skp file: {}", e.getMessage(), e);
