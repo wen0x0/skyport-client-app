@@ -21,10 +21,18 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Skyport Client");
 
+        // // Disable maximize/minimize button
+        // primaryStage.setResizable(false);
+        // primaryStage.initStyle(javafx.stage.StageStyle.UTILITY);
+
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 
+        primaryStage.setWidth(530);
+        primaryStage.setHeight(720);
+
+        // Center
         primaryStage.setX((screenBounds.getWidth() - primaryStage.getWidth()) / 2);
-        primaryStage.setY(0);
+        primaryStage.setY((screenBounds.getHeight() - primaryStage.getHeight()) / 2);
 
         primaryStage.show();
         logger.info("UI loaded and shown.");
