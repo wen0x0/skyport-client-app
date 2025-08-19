@@ -23,15 +23,6 @@ public class SFTPClientController {
     private static final Logger logger = LoggerFactory.getLogger(SFTPClientController.class);
 
     @FXML
-    private TextField ipAddressField;
-
-    @FXML
-    private TextField portField;
-
-    @FXML
-    private TextField knownHostsField;
-
-    @FXML
     private TextField usernameField;
 
     @FXML
@@ -40,46 +31,19 @@ public class SFTPClientController {
     @FXML
     private ProgressIndicator loadingSpinner;
 
+    private String ip, knownHosts;
+    private int port;
     private SFTPClient client;
-
     private Task<Void> connectTask;
     private Task<Void> testTask;
 
-    private String ip, username, password, knownHosts;
-    private int port;
-
     private boolean validateInputs() {
-        ip = ipAddressField.getText().trim();
-        String portStr = portField.getText().trim();
-        username = usernameField.getText().trim();
-        password = passwordField.getText();
-        knownHosts = knownHostsField.getText().trim();
+        String username = usernameField.getText().trim();
+        String password = passwordField.getText();
 
-        if (ip.isEmpty()) {
-            showAlert("Validation Error", "IP address is required.", false);
-            logger.error("Validation Error: IP address is required.");
-            return false;
-        }
-        if (!ip.matches("^((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.|$)){4}$")) {
-            showAlert("Validation Error", "Invalid IP address format.", false);
-            logger.error("Validation Error: Invalid IP address format.");
-            return false;
-        }
-        if (portStr.isEmpty()) {
-            showAlert("Validation Error", "Port number is required.", false);
-            logger.error("Validation Error: Port number is required.");
-            return false;
-        }
-        try {
-            port = Integer.parseInt(portStr);
-            if (port < 1 || port > 65535) {
-                showAlert("Validation Error", "Invalid port number.", false);
-                logger.error("Validation Error: Invalid port number.");
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            showAlert("Validation Error", "Invalid port number.", false);
-            logger.error("Validation Error: Invalid port number.", e);
+        if (ip == null || ip.isEmpty()) {
+            showAlert("Validation Error", "You must import a .skp config file first.", false);
+            logger.error("Validation Error: .skp config not loaded.");
             return false;
         }
         if (username.isEmpty()) {
@@ -92,12 +56,14 @@ public class SFTPClientController {
             logger.error("Validation Error: Password is required.");
             return false;
         }
-
         return true;
     }
 
     @FXML
     private void connect() {
+        String username = usernameField.getText().trim();
+        String password = passwordField.getText();
+
         logger.info("Connect button clicked. Attempting connection to {}:{} with user '{}'", ip, port, username);
         if (!validateInputs()) {
             logger.warn("Connection aborted due to invalid inputs.");
@@ -133,7 +99,7 @@ public class SFTPClientController {
                     FileBrowserController browserController = loader.getController();
                     browserController.setClient(client);
 
-                    Stage stage = (Stage) ipAddressField.getScene().getWindow();
+                    Stage stage = (Stage) usernameField.getScene().getWindow();
                     stage.setScene(new Scene(browserRoot));
                     stage.setTitle("SFTP File Browser");
                     stage.setMaximized(true);
@@ -177,6 +143,9 @@ public class SFTPClientController {
 
     @FXML
     private void testConnection() {
+        String username = usernameField.getText().trim();
+        String password = passwordField.getText();
+
         logger.info("Test connect button clicked. Attempting connection to {}:{} with user '{}'", ip, port, username);
         if (!validateInputs()) {
             logger.warn("Test connection aborted due to invalid inputs.");
@@ -321,27 +290,11 @@ public class SFTPClientController {
     }
 
     @FXML
-    private void browseKnownHosts() {
-        logger.info("Browse known hosts button clicked.");
-        javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
-        fileChooser.setTitle("Select known_hosts file");
-        fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("All Files", "*.*"));
-        Stage stage = (Stage) knownHostsField.getScene().getWindow();
-        java.io.File file = fileChooser.showSaveDialog(stage);
-        if (file != null) {
-            knownHostsField.setText(file.getAbsolutePath());
-            logger.info("Selected known_hosts file: {}", file.getAbsolutePath());
-        } else {
-            logger.info("No known_hosts file selected.");
-        }
-    }
-
-    @FXML
     private void browseSKPFile() {
         javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
         fileChooser.setTitle("Select .skp Config File");
         fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("SKP Files", "*.skp"));
-        Stage stage = (Stage) ipAddressField.getScene().getWindow();
+        Stage stage = (Stage) usernameField.getScene().getWindow();
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
             try {
@@ -362,23 +315,24 @@ public class SFTPClientController {
         Pattern keyTypePattern = Pattern.compile("ssh_key_type\\s*=\\s*([\\w-]+)");
         Pattern pubKeyPattern = Pattern.compile("server_pub_key\\s*=\\s*\"\"\"([\\s\\S]+?)\"\"\"", Pattern.MULTILINE);
 
-        String ip = findFirst(ipPattern, content);
-        String port = findFirst(portPattern, content);
+        ip = findFirst(ipPattern, content);
+        String portStr = findFirst(portPattern, content);
         String keyType = findFirst(keyTypePattern, content);
         String pubKey = findFirst(pubKeyPattern, content);
 
- 
-        if (ip != null) ipAddressField.setText(ip.trim());
-        if (port != null) portField.setText(port.trim());
-
-        if (pubKey != null && keyType != null && ip != null) {
-            File keysDir = new File("keys");
-            if (!keysDir.exists()) keysDir.mkdirs();
-            String keyFileName = ip + "_" + keyType + ".pub";
-            File pubKeyFile = new File(keysDir, keyFileName);
-            Files.write(pubKeyFile.toPath(), pubKey.trim().getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-            knownHostsField.setText(pubKeyFile.getAbsolutePath());
+        if (ip == null || portStr == null || keyType == null || pubKey == null) {
+            throw new IllegalArgumentException("Missing required fields in .skp file.");
         }
+
+        port = Integer.parseInt(portStr.trim());
+
+        // Xuất public key ra thư mục keys/
+        File keysDir = new File("keys");
+        if (!keysDir.exists()) keysDir.mkdirs();
+        String keyFileName = ip + "_" + keyType + ".pub";
+        File pubKeyFile = new File(keysDir, keyFileName);
+        Files.write(pubKeyFile.toPath(), pubKey.trim().getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        knownHosts = pubKeyFile.getAbsolutePath();
     }
 
     private String findFirst(Pattern pattern, String content) {
@@ -390,11 +344,6 @@ public class SFTPClientController {
     }
 
     private String getKnownHostsPath() {
-        String path = knownHostsField.getText();
-        if (path == null || path.trim().isEmpty()) {
-            String userHome = System.getProperty("user.home");
-            path = userHome + File.separator + ".ssh" + File.separator + "known_hosts";
-        }
-        return path;
+        return knownHosts;
     }
 }
