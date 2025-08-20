@@ -6,6 +6,8 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -20,8 +22,11 @@
         <VBox alignment="CENTER" prefHeight="360" prefWidth="340" spacing="18"
             style="-fx-padding: 28; -fx-background-color: #fff; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
 
-            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #222;"
-                text="Skyport Client" />
+            <ImageView fitHeight="50" preserveRatio="true" pickOnBounds="true">
+                <image>
+                    <Image url="@icon.png" />
+                </image>
+            </ImageView>
 
             <!-- Import .skp config -->
             <HBox alignment="CENTER_LEFT" spacing="8">

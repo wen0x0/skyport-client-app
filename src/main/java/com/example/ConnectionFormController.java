@@ -104,7 +104,7 @@ public class ConnectionFormController {
 
                     Stage stage = (Stage) usernameField.getScene().getWindow();
                     stage.setScene(new Scene(browserRoot));
-                    stage.setTitle("SFTP File Browser");
+                    stage.setTitle("Skyport File Browser");
                     stage.setMaximized(true);
                     logger.info("Switched to file browser view for user '{}'", username);
 
@@ -332,10 +332,12 @@ public class ConnectionFormController {
         port = Integer.parseInt(portStr.trim());
 
         File keysDir = new File("keys");
-        if (!keysDir.exists()) keysDir.mkdirs();
+        if (!keysDir.exists())
+            keysDir.mkdirs();
         String keyFileName = ip + "_" + keyType + ".pub";
         File pubKeyFile = new File(keysDir, keyFileName);
-        Files.write(pubKeyFile.toPath(), pubKey.trim().getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(pubKeyFile.toPath(), pubKey.trim().getBytes(), StandardOpenOption.CREATE,
+                StandardOpenOption.TRUNCATE_EXISTING);
         knownHosts = pubKeyFile.getAbsolutePath();
     }
 
