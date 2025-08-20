@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -20,6 +21,9 @@ public class App extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Skyport Client");
+
+        Image icon = new Image(getClass().getResourceAsStream("/flash.png"));
+        primaryStage.getIcons().add(icon);
 
         // Center window
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();

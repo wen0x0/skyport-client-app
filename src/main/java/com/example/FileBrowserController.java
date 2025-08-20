@@ -2,6 +2,7 @@ package com.example;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser;
 import javafx.collections.FXCollections;
@@ -255,8 +256,10 @@ public class FileBrowserController {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/connection-form.fxml"));
             Parent root = loader.load();
+            Image icon = new Image(getClass().getResourceAsStream("/flash.png"));
 
             Stage loginStage = new Stage();
+            loginStage.getIcons().add(icon);
             loginStage.setScene(new Scene(root));
             loginStage.setTitle("Skyport Client");
             loginStage.show();
@@ -280,6 +283,7 @@ public class FileBrowserController {
 
             Stage shellStage = new Stage();
             shellStage.setScene(new Scene(shellRoot, 700, 400));
+            shellStage.getIcons().add(new Image(getClass().getResourceAsStream("/flash.png")));
             shellStage.setTitle("Skyport Terminal");
             shellStage.show();
         } catch (Exception e) {
