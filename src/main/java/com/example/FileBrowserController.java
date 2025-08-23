@@ -319,6 +319,8 @@ public class FileBrowserController {
                     client.session.getPort());
 
             Stage shellStage = new Stage();
+            Image icon = new Image(getClass().getResourceAsStream("/flash.png"));
+            shellStage.getIcons().add(icon);
             shellStage.setScene(new Scene(shellRoot, 700, 400));
             shellStage.getIcons().add(new Image(getClass().getResourceAsStream("/flash.png")));
             shellStage.setTitle("Skyport Terminal");
