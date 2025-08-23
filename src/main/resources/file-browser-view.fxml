@@ -11,16 +11,20 @@
     <!-- Header -->
     <top>
         <VBox>
-            <HBox alignment="CENTER" style="-fx-padding: 18 0 0 0;">
+            <!-- <HBox alignment="CENTER" style="-fx-padding: 18 0 0 0;">
                 <ImageView fitHeight="44" preserveRatio="true" pickOnBounds="true">
                     <image>
                         <Image url="@icon.png" />
                     </image>
                 </ImageView>
-            </HBox>
+            </HBox> -->
             <HBox alignment="CENTER_LEFT" spacing="20"
                 style="-fx-padding: 15; -fx-background-color: #e9ecef;">
-                <Label text="Skyport Client" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+                <ImageView fitHeight="32" preserveRatio="true" pickOnBounds="true">
+                    <image>
+                        <Image url="@icon.png" />
+                    </image>
+                </ImageView>
                 <Region HBox.hgrow="ALWAYS" />
                 <Label fx:id="serverInfoLabel" text="user@host:port"
                     style="-fx-font-family: Consolas;" />
@@ -61,7 +65,8 @@
                 prefWidth="400" />
 
             <!-- Selection Details -->
-            <VBox spacing="4" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-padding: 10 15 10 15;">
+            <VBox spacing="4"
+                style="-fx-background-color: white; -fx-border-color: #ddd; -fx-padding: 10 15 10 15;">
                 <Label text="Selection Details" style="-fx-font-weight: bold;" />
                 <Label fx:id="fileInfoLabel" text="No file selected" wrapText="true"
                     style="-fx-font-family: Consolas;" />
