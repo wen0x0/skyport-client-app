@@ -234,9 +234,37 @@ public class FileBrowserController {
         }
         try {
             if (selected.endsWith("/")) {
-                client.rmdir(currentDir + "/" + selected.replace("/", ""));
-                statusLabel.setText("Deleted folder: " + selected);
-                logger.info("Deleted folder: {}", selected);
+                try {
+                    client.rmdir(currentDir + "/" + selected.replace("/", ""));
+                    statusLabel.setText("Deleted folder: " + selected);
+                    logger.info("Deleted folder: {}", selected);
+                } catch (SftpException e) {
+                    if (e.id == ChannelSftp.SSH_FX_FAILURE || e.getMessage().toLowerCase().contains("directory not empty")) {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Force Delete");
+                        alert.setHeaderText("Folder is not empty");
+                        alert.setContentText("Folder is not empty. Do you want to force delete all contents?");
+                        ButtonType yes = new ButtonType("Force Delete", ButtonBar.ButtonData.YES);
+                        ButtonType no = new ButtonType("Cancel", ButtonBar.ButtonData.NO);
+                        alert.getButtonTypes().setAll(yes, no);
+                        alert.showAndWait().ifPresent(response -> {
+                            if (response == yes) {
+                                try {
+                                    forceDeleteFolder(currentDir + "/" + selected.replace("/", ""));
+                                    statusLabel.setText("Force deleted folder: " + selected);
+                                    logger.info("Force deleted folder: {}", selected);
+                                    refreshFileList();
+                            } catch (Exception ex) {
+                                statusLabel.setText("Force delete failed: " + ex.getMessage());
+                                logger.error("Force delete failed: {}", ex.getMessage());
+                            }
+                            }
+                        });
+                        return;
+                    } else {
+                        throw e;
+                    }
+                }
             } else {
                 client.rm(currentDir + "/" + selected);
                 statusLabel.setText("Deleted file: " + selected);
@@ -413,5 +441,19 @@ public class FileBrowserController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void forceDeleteFolder(String dir) throws Exception {
+        Vector<ChannelSftp.LsEntry> entries = client.ls(dir);
+        for (ChannelSftp.LsEntry entry : entries) {
+            String name = entry.getFilename();
+            if (name.equals(".") || name.equals("..")) continue;
+            String path = dir + "/" + name;
+            if (entry.getAttrs().isDir()) {
+                forceDeleteFolder(path);
+            } else {
+                client.rm(path);
+            }
+        }
     }
 }
