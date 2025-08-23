@@ -140,13 +140,13 @@ public class FileBrowserController {
                 progressBar.setProgress(0);
                 progressBar.setVisible(false);
                 refreshFileList();
-                showAlert("Upload", "Upload thành công!", true);
+                showAlert("Upload", "Upload sucessful!", true);
             });
             uploadTask.setOnFailed(e -> {
                 progressBar.progressProperty().unbind();
                 progressBar.setProgress(0);
                 progressBar.setVisible(false);
-                showAlert("Upload", "Upload thất bại: " + uploadTask.getException().getMessage(), false);
+                showAlert("Upload", "Upload failed: " + uploadTask.getException().getMessage(), false);
             });
             new Thread(uploadTask).start();
         }
