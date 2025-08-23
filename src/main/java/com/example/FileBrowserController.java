@@ -450,10 +450,11 @@ public class FileBrowserController {
             if (name.equals(".") || name.equals("..")) continue;
             String path = dir + "/" + name;
             if (entry.getAttrs().isDir()) {
-                forceDeleteFolder(path);
+                forceDeleteFolder(path); 
             } else {
                 client.rm(path);
             }
         }
+        client.rmdir(dir); 
     }
 }
