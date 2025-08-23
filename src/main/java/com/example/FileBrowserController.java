@@ -36,6 +36,8 @@ public class FileBrowserController {
     private Label serverInfoLabel;
     @FXML
     private ProgressBar progressBar;
+    @FXML
+    private TextField searchField;
 
     private SFTPClient client;
     private String currentDir = ".";
@@ -79,7 +81,9 @@ public class FileBrowserController {
             fileListView.setItems(items);
             pathLabel.setText(currentDir);
             logger.info("Loaded file list for directory: {}", currentDir);
-            fileInfoLabel.setText("File details");
+            // Reset selection details sau mỗi lần refresh
+            fileInfoLabel.setText("Select a file to view details");
+            fileListView.getSelectionModel().clearSelection();
         } catch (SftpException e) {
             statusLabel.setText("Failed to load file list: " + e.getMessage());
             logger.error("Failed to load file list: {}", e.getMessage());
@@ -239,7 +243,8 @@ public class FileBrowserController {
                     statusLabel.setText("Deleted folder: " + selected);
                     logger.info("Deleted folder: {}", selected);
                 } catch (SftpException e) {
-                    if (e.id == ChannelSftp.SSH_FX_FAILURE || e.getMessage().toLowerCase().contains("directory not empty")) {
+                    if (e.id == ChannelSftp.SSH_FX_FAILURE
+                            || e.getMessage().toLowerCase().contains("directory not empty")) {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.setTitle("Force Delete");
                         alert.setHeaderText("Folder is not empty");
@@ -254,10 +259,10 @@ public class FileBrowserController {
                                     statusLabel.setText("Force deleted folder: " + selected);
                                     logger.info("Force deleted folder: {}", selected);
                                     refreshFileList();
-                            } catch (Exception ex) {
-                                statusLabel.setText("Force delete failed: " + ex.getMessage());
-                                logger.error("Force delete failed: {}", ex.getMessage());
-                            }
+                                } catch (Exception ex) {
+                                    statusLabel.setText("Force delete failed: " + ex.getMessage());
+                                    logger.error("Force delete failed: {}", ex.getMessage());
+                                }
                             }
                         });
                         return;
@@ -367,6 +372,32 @@ public class FileBrowserController {
                 }
             }
         });
+
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (client == null)
+                return;
+            try {
+                ObservableList<String> filtered = FXCollections.observableArrayList();
+                Vector<ChannelSftp.LsEntry> entries = client.ls(currentDir);
+                for (ChannelSftp.LsEntry entry : entries) {
+                    String name = entry.getFilename();
+                    if (!name.equals(".") && !name.equals("..")) {
+                        String displayName = name + (entry.getAttrs().isDir() ? "/" : "");
+                        if (newVal == null || newVal.isEmpty()
+                                || displayName.toLowerCase().contains(newVal.toLowerCase())) {
+                            filtered.add(displayName);
+                        }
+                    }
+                }
+                fileListView.setItems(filtered);
+
+                fileInfoLabel.setText("Select a file to view details");
+                fileListView.getSelectionModel().clearSelection();
+            } catch (Exception e) {
+                statusLabel.setText("Search failed: " + e.getMessage());
+                logger.error("Search failed: {}", e.getMessage());
+            }
+        });
     }
 
     private String formatSize(long size) {
@@ -447,14 +478,15 @@ public class FileBrowserController {
         Vector<ChannelSftp.LsEntry> entries = client.ls(dir);
         for (ChannelSftp.LsEntry entry : entries) {
             String name = entry.getFilename();
-            if (name.equals(".") || name.equals("..")) continue;
+            if (name.equals(".") || name.equals(".."))
+                continue;
             String path = dir + "/" + name;
             if (entry.getAttrs().isDir()) {
-                forceDeleteFolder(path); 
+                forceDeleteFolder(path);
             } else {
                 client.rm(path);
             }
         }
-        client.rmdir(dir); 
+        client.rmdir(dir);
     }
 }
