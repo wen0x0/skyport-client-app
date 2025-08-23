@@ -106,8 +106,6 @@ public class ShellController {
         
             processCommand(command);
         
-            outputArea.appendText("\n" + "─".repeat(60) + "\n\n");
-        
             commandField.clear();
         }
     }
