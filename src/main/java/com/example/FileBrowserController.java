@@ -133,16 +133,19 @@ public class FileBrowserController {
                 }
             };
 
+            progressBar.setVisible(true);
             progressBar.progressProperty().bind(uploadTask.progressProperty());
             uploadTask.setOnSucceeded(e -> {
                 progressBar.progressProperty().unbind();
                 progressBar.setProgress(0);
+                progressBar.setVisible(false);
                 refreshFileList();
                 showAlert("Upload", "Upload thành công!", true);
             });
             uploadTask.setOnFailed(e -> {
                 progressBar.progressProperty().unbind();
                 progressBar.setProgress(0);
+                progressBar.setVisible(false);
                 showAlert("Upload", "Upload thất bại: " + uploadTask.getException().getMessage(), false);
             });
             new Thread(uploadTask).start();
@@ -202,15 +205,18 @@ public class FileBrowserController {
                 }
             };
 
+            progressBar.setVisible(true);
             progressBar.progressProperty().bind(downloadTask.progressProperty());
             downloadTask.setOnSucceeded(e -> {
                 progressBar.progressProperty().unbind();
                 progressBar.setProgress(0);
+                progressBar.setVisible(false);
                 showAlert("Download", "Download successful!", true);
             });
             downloadTask.setOnFailed(e -> {
                 progressBar.progressProperty().unbind();
                 progressBar.setProgress(0);
+                progressBar.setVisible(false);
                 showAlert("Download", "Download failed: " + downloadTask.getException().getMessage(), false);
             });
             new Thread(downloadTask).start();

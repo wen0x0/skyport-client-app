@@ -46,23 +46,21 @@
                     style="-fx-background-color: #e9ecef; -fx-padding: 5 10; -fx-font-family: Consolas;" />
             </HBox>
 
-            <!-- File List & Info Panel -->
-            <HBox spacing="15">
-                <ListView fx:id="fileListView" HBox.hgrow="ALWAYS"
-                    style="-fx-background-color: white; -fx-border-color: #ddd;"
-                    prefWidth="400" />
+            <!-- File List -->
+            <ListView fx:id="fileListView" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: white; -fx-border-color: #ddd;"
+                prefWidth="400" />
 
-                <VBox spacing="10" minWidth="200"
-                    style="-fx-background-color: white; -fx-border-color: #ddd; -fx-padding: 15;">
-                    <Label text="Selection Details" style="-fx-font-weight: bold;" />
-                    <Label fx:id="fileInfoLabel" text="No file selected" wrapText="true"
-                        style="-fx-font-family: Consolas;" />
-                    <Label fx:id="statusLabel" text="" />
-                </VBox>
-            </HBox>
+            <!-- Selection Details -->
+            <VBox spacing="4" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-padding: 10 15 10 15;">
+                <Label text="Selection Details" style="-fx-font-weight: bold;" />
+                <Label fx:id="fileInfoLabel" text="No file selected" wrapText="true"
+                    style="-fx-font-family: Consolas;" />
+                <Label fx:id="statusLabel" text="" />
+            </VBox>
 
             <!-- Progress Bar -->
-            <ProgressBar fx:id="progressBar" prefWidth="300" progress="0" />
+            <ProgressBar fx:id="progressBar" prefWidth="300" progress="0" visible="false" />
         </VBox>
     </center>
 
