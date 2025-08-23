@@ -20,7 +20,7 @@
             </HBox> -->
             <HBox alignment="CENTER_LEFT" spacing="20"
                 style="-fx-padding: 15; -fx-background-color: #e9ecef;">
-                <ImageView fitHeight="32" preserveRatio="true" pickOnBounds="true">
+                <ImageView fitHeight="50" preserveRatio="true" pickOnBounds="true">
                     <image>
                         <Image url="@icon.png" />
                     </image>
