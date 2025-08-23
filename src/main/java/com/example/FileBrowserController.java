@@ -256,11 +256,9 @@ public class FileBrowserController {
                             if (response == yes) {
                                 try {
                                     forceDeleteFolder(currentDir + "/" + selected.replace("/", ""));
-                                    statusLabel.setText("Force deleted folder: " + selected);
                                     logger.info("Force deleted folder: {}", selected);
                                     refreshFileList();
                                 } catch (Exception ex) {
-                                    statusLabel.setText("Force delete failed: " + ex.getMessage());
                                     logger.error("Force delete failed: {}", ex.getMessage());
                                 }
                             }
