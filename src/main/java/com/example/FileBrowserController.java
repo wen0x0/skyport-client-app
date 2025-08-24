@@ -424,11 +424,9 @@ public class FileBrowserController {
             }
             try {
                 client.mkdir(currentDir + "/" + name.trim());
-                statusLabel.setText("Created folder: " + name.trim());
                 logger.info("Created folder: {}", name.trim());
                 refreshFileList();
             } catch (Exception e) {
-                statusLabel.setText("Create folder failed: " + e.getMessage());
                 logger.error("Create folder failed: {}", e.getMessage());
             }
         });
@@ -445,7 +443,6 @@ public class FileBrowserController {
             refreshFileList();
             logger.info("Changed directory to home: {}", currentDir);
         } catch (Exception e) {
-            statusLabel.setText("Failed to go home: " + e.getMessage());
             logger.error("Failed to go home: {}", e.getMessage());
         }
     }
@@ -461,7 +458,6 @@ public class FileBrowserController {
             refreshFileList();
             logger.info("Changed directory to previous: {}", currentDir);
         } catch (Exception e) {
-            statusLabel.setText("Failed to go back: " + e.getMessage());
             logger.error("Failed to go back: {}", e.getMessage());
         }
     }
