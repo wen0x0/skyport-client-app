@@ -34,11 +34,16 @@ public class ConnectionFormController {
     @FXML
     private Button browseSKPButton;
 
+    @FXML
+    private Button browseOVPNButton;
+
     private String ip, knownHosts;
     private int port;
     private SFTPClient client;
     private Task<Void> connectTask;
     private Task<Void> testTask;
+
+    private File ovpnFile;
 
     private boolean validateInputs() {
         String username = usernameField.getText().trim();
@@ -80,11 +85,18 @@ public class ConnectionFormController {
             protected Void call() throws Exception {
                 if (isCancelled())
                     return null;
-                logger.info("Initializing SFTPClient with knownHosts: {}", knownHosts);
+
+                // 1. Connect VPN if ovpnFile is set
+                updateMessage("Connecting VPN...");
+                if (!connectVPN(username, password)) {
+                    throw new Exception("VPN connection failed.");
+                }
+
+                // 2. Connect SFTP
+                updateMessage("Connecting SFTP...");
                 client = new SFTPClient(getKnownHostsPath());
                 if (isCancelled())
                     return null;
-                logger.info("Connecting to SFTP server {}:{} as {}", ip, port, username);
                 client.connect(username, ip, port, password);
                 return null;
             }
@@ -119,10 +131,11 @@ public class ConnectionFormController {
                 loadingSpinner.setVisible(false);
                 Throwable ex = getException();
                 String msg = ex != null ? ex.getMessage() : "Unknown error";
-                logger.error("Connection to {}:{} failed: {}", ip, port, msg, ex);
+                logger.error("Connection failed: {}", msg, ex);
 
-                if (msg != null && msg.toLowerCase().contains("timed out")) {
-                    logger.error("Connection timed out to {}:{}", ip, port);
+                if (msg != null && msg.toLowerCase().contains("vpn")) {
+                    showAlert("VPN Connection Failed", "VPN connection failed: " + msg, false);
+                } else if (msg != null && msg.toLowerCase().contains("timed out")) {
                     showAlert("Connection Timeout",
                             "Cannot connect to SFTP.\nPlease check the IP address, port, or network status and try again.",
                             false);
@@ -134,7 +147,7 @@ public class ConnectionFormController {
             @Override
             protected void cancelled() {
                 loadingSpinner.setVisible(false);
-                logger.warn("Connection attempt to {}:{} cancelled.", ip, port);
+                logger.warn("Connection attempt cancelled.");
                 showAlert("Cancelled", "Connection attempt cancelled.", false);
             }
         };
@@ -160,28 +173,31 @@ public class ConnectionFormController {
         testTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                if (isCancelled())
-                    return null;
-                logger.info("Initializing SFTPClient for test with knownHosts: {}", knownHosts);
+                if (isCancelled()) return null;
+
+                // 1. Connect VPN if ovpnFile is set
+                updateMessage("Connecting VPN...");
+                if (!connectVPN(username, password)) {
+                    throw new Exception("VPN connection failed.");
+                }
+
+                // 2. Connect SFTP
+                updateMessage("Testing SFTP...");
                 SFTPClient testClient = new SFTPClient(getKnownHostsPath());
-                if (isCancelled())
-                    return null;
-                logger.info("Testing connection to SFTP server {}:{} as {}", ip, port, username);
+                if (isCancelled()) return null;
                 testClient.connect(username, ip, port, password);
                 if (isCancelled()) {
-                    logger.warn("Test connection cancelled, disconnecting test client.");
                     testClient.disconnect();
                     return null;
                 }
                 testClient.disconnect();
-                logger.info("Test connection to {}:{} succeeded.", ip, port);
                 return null;
             }
 
             @Override
             protected void succeeded() {
                 loadingSpinner.setVisible(false);
-                logger.info("Test connection to {}:{} succeeded.", ip, port);
+                logger.info("Test connection succeeded.");
                 showAlert("Test Successful", "Successfully connected to " + ip + ":" + port, true);
             }
 
@@ -190,10 +206,11 @@ public class ConnectionFormController {
                 loadingSpinner.setVisible(false);
                 Throwable ex = getException();
                 String msg = ex != null ? ex.getMessage() : "Unknown error";
-                logger.error("Test connection to {}:{} failed: {}", ip, port, msg, ex);
+                logger.error("Test connection failed: {}", msg, ex);
 
-                if (msg != null && msg.toLowerCase().contains("timed out")) {
-                    logger.error("Test connection timed out to {}:{}", ip, port);
+                if (msg != null && msg.toLowerCase().contains("vpn")) {
+                    showAlert("VPN Connection Failed", "VPN connection failed: " + msg, false);
+                } else if (msg != null && msg.toLowerCase().contains("timed out")) {
                     showAlert("Test Connection Timeout",
                             "Cannot connect to SFTP.\nPlease check the IP address, port, or network status and try again.",
                             false);
@@ -205,7 +222,7 @@ public class ConnectionFormController {
             @Override
             protected void cancelled() {
                 loadingSpinner.setVisible(false);
-                logger.warn("Test connection attempt to {}:{} cancelled.", ip, port);
+                logger.warn("Test connection attempt cancelled.");
                 showAlert("Cancelled", "Test connection cancelled.", false);
             }
         };
@@ -351,5 +368,44 @@ public class ConnectionFormController {
 
     private String getKnownHostsPath() {
         return knownHosts;
+    }
+
+    @FXML
+    private void browseOVPNFile() {
+        javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+        fileChooser.setTitle("Select .ovpn Config File");
+        fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("OpenVPN Files", "*.ovpn"));
+        Stage stage = (Stage) usernameField.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            ovpnFile = file;
+            browseOVPNButton.setText(file.getName());
+            showAlert("Loaded", "Loaded VPN config: " + file.getName(), true);
+        }
+    }
+
+    private boolean connectVPN(String username, String password) {
+        if (ovpnFile == null)
+            return true;
+
+        try {
+            File authFile = File.createTempFile("vpn_auth", ".txt");
+            Files.write(authFile.toPath(), (username + "\n" + password).getBytes());
+
+            ProcessBuilder pb = new ProcessBuilder(
+                    "openvpn",
+                    "--config", ovpnFile.getAbsolutePath(),
+                    "--auth-user-pass", authFile.getAbsolutePath(),
+                    "--connect-retry-max", "1");
+            pb.redirectErrorStream(true);
+            Thread.sleep(8000);
+
+            logger.info("VPN process started with config: {}", ovpnFile.getName());
+            return true;
+        } catch (Exception e) {
+            logger.error("Failed to connect VPN: {}", e.getMessage());
+            showAlert("VPN Error", "Failed to connect VPN: " + e.getMessage(), false);
+            return false;
+        }
     }
 }
