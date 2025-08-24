@@ -319,7 +319,6 @@ public class ConnectionFormController {
         if (file != null) {
             try {
                 parseSKPFile(file);
-                // Đổi text nút thành tên file
                 browseSKPButton.setText(file.getName());
                 showAlert("Loaded", "Loaded config from " + file.getName(), true);
             } catch (Exception e) {
@@ -398,7 +397,7 @@ public class ConnectionFormController {
                     "--auth-user-pass", authFile.getAbsolutePath(),
                     "--connect-retry-max", "1");
             pb.redirectErrorStream(true);
-            Thread.sleep(8000);
+            Thread.sleep(5000);
 
             logger.info("VPN process started with config: {}", ovpnFile.getName());
             return true;
