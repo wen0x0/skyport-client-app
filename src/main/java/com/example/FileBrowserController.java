@@ -98,6 +98,12 @@ public class FileBrowserController {
         fileChooser.setTitle("Select file to upload");
         File file = fileChooser.showOpenDialog(fileListView.getScene().getWindow());
         if (file != null) {
+            // Check virus before upload
+            if (!VirusTotalUtil.isFileSafe(file)) {
+                showAlert("Upload", "File is not safe and cannot be uploaded.", false);
+                return;
+            }
+
             String remote = currentDir + "/" + file.getName();
             Task<Void> uploadTask = new Task<>() {
                 @Override

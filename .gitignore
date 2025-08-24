@@ -3,3 +3,4 @@ logs/
 *.skp
 .vscode/
 keys/
+.env
