@@ -22,7 +22,7 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Skyport Client");
 
-        Image icon = new Image(getClass().getResourceAsStream("/flash.png"));
+        Image icon = new Image(getClass().getResourceAsStream("/flash.ico"));
         primaryStage.getIcons().add(icon);
 
         // Center window
