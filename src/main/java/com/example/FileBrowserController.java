@@ -327,7 +327,7 @@ public class FileBrowserController {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/connection-form.fxml"));
             Parent root = loader.load();
-            Image icon = new Image(getClass().getResourceAsStream("/flash.ico"));
+            Image icon = new Image(getClass().getResourceAsStream("/logo.png"));
 
             Stage loginStage = new Stage();
             loginStage.getIcons().add(icon);
@@ -352,10 +352,10 @@ public class FileBrowserController {
                     client.session.getPort());
 
             Stage shellStage = new Stage();
-            Image icon = new Image(getClass().getResourceAsStream("/flash.ico"));
+            Image icon = new Image(getClass().getResourceAsStream("/logo.png"));
             shellStage.getIcons().add(icon);
             shellStage.setScene(new Scene(shellRoot, 700, 400));
-            shellStage.getIcons().add(new Image(getClass().getResourceAsStream("/flash.ico")));
+            shellStage.getIcons().add(new Image(getClass().getResourceAsStream("/logo.png")));
             shellStage.setTitle("Skyport Terminal");
             shellStage.show();
         } catch (Exception e) {
