@@ -75,6 +75,36 @@ public class VirusTotalUtil {
                     .build();
 
             HttpResponse<String> uploadResp = client.send(uploadReq, HttpResponse.BodyHandlers.ofString());
+
+            // If 409 Conflict, file already exists - get report by hash
+            if (uploadResp.statusCode() == 409) {
+                logger.warn("VirusTotal upload 409 Conflict: {}", uploadResp.body());
+                String sha256 = getSHA256(file);
+                logger.info("Querying VirusTotal for existing report with SHA256: {}", sha256);
+                HttpRequest hashReq = HttpRequest.newBuilder()
+                        .uri(URI.create("https://www.virustotal.com/api/v3/files/" + sha256))
+                        .header("x-apikey", VT_API_KEY)
+                        .timeout(Duration.ofSeconds(20))
+                        .GET()
+                        .build();
+                HttpResponse<String> hashResp = client.send(hashReq, HttpResponse.BodyHandlers.ofString());
+                if (hashResp.statusCode() != 200) {
+                    logger.error("VirusTotal hash query failed (HTTP {}): {}", hashResp.statusCode(), hashResp.body());
+                    return false;
+                }
+                JSONObject hashJson = new JSONObject(hashResp.body());
+                JSONObject stats = hashJson.getJSONObject("data").getJSONObject("attributes").getJSONObject("last_analysis_stats");
+                int malicious = stats.optInt("malicious", 0);
+                int suspicious = stats.optInt("suspicious", 0);
+                logger.info("VirusTotal hash result for {}: malicious={}, suspicious={}", file.getName(), malicious, suspicious);
+                if (malicious > 0 || suspicious > 0) {
+                    logger.warn("File {} detected as malicious/suspicious by VirusTotal. Upload blocked.", file.getName());
+                    return false;
+                }
+                logger.info("File {} is clean according to VirusTotal.", file.getName());
+                return true;
+            }
+
             if (uploadResp.statusCode() != 200 && uploadResp.statusCode() != 201) {
                 logger.error("VirusTotal upload failed (HTTP {}): {}", uploadResp.statusCode(), uploadResp.body());
                 return false;
@@ -121,6 +151,23 @@ public class VirusTotalUtil {
         } catch (Exception e) {
             logger.error("VirusTotal check failed for file {}: {}", file.getName(), e.getMessage(), e);
             return false;
+        }
+    }
+
+    // Get SHA256 hash of file
+    private static String getSHA256(File file) {
+        try (var is = Files.newInputStream(file.toPath())) {
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] buf = new byte[8192];
+            int n;
+            while ((n = is.read(buf)) > 0) digest.update(buf, 0, n);
+            byte[] hash = digest.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hash) sb.append(String.format("%02x", b));
+            return sb.toString();
+        } catch (Exception ex) {
+            logger.error("Failed to compute SHA256 for {}: {}", file.getName(), ex.getMessage());
+            return "";
         }
     }
 }
