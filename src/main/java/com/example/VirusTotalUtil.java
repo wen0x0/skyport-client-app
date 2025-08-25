@@ -113,8 +113,8 @@ public class VirusTotalUtil {
             String analysisId = uploadJson.getJSONObject("data").getString("id");
             logger.info("VirusTotal analysis ID: {}", analysisId);
 
-            // 3. Poll kết quả phân tích (tối đa 6 lần, mỗi lần cách 5s)
-            int maxTries = 6;
+            // 3. Poll for results
+            int maxTries = 10;
             for (int i = 0; i < maxTries; i++) {
                 HttpRequest resultReq = HttpRequest.newBuilder()
                         .uri(URI.create("https://www.virustotal.com/api/v3/analyses/" + analysisId))
