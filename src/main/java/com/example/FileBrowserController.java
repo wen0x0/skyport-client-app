@@ -81,7 +81,7 @@ public class FileBrowserController {
             fileListView.setItems(items);
             pathLabel.setText(currentDir);
             logger.info("Loaded file list for directory: {}", currentDir);
-            // Reset selection details sau mỗi lần refresh
+            // Reset selection and info
             fileInfoLabel.setText("Select a file to view details");
             fileListView.getSelectionModel().clearSelection();
         } catch (SftpException e) {
