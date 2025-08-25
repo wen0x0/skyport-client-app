@@ -4,3 +4,4 @@ logs/
 .vscode/
 keys/
 .env
+vt_scan.py
