@@ -75,6 +75,7 @@
 
             <!-- Progress Bar -->
             <ProgressBar fx:id="progressBar" prefWidth="300" progress="0" visible="false" />
+            <ProgressIndicator fx:id="vtProgress" visible="false" prefWidth="22" prefHeight="22"/>
         </VBox>
     </center>
 

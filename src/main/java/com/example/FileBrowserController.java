@@ -38,6 +38,8 @@ public class FileBrowserController {
     private ProgressBar progressBar;
     @FXML
     private TextField searchField;
+    @FXML
+    private ProgressIndicator vtProgress; 
 
     private SFTPClient client;
     private String currentDir = ".";
@@ -99,69 +101,96 @@ public class FileBrowserController {
         File file = fileChooser.showOpenDialog(fileListView.getScene().getWindow());
         if (file != null) {
             logger.info("User selected file for upload: {}", file.getAbsolutePath());
-            // Check virus before upload
-            if (!VirusTotalUtil.isFileSafe(file)) {
-                logger.warn("Upload blocked: File {} is not safe (VirusTotal detection)", file.getName());
-                showAlert("Upload", "File is not safe and cannot be uploaded.", false);
-                return;
-            }
-            logger.info("File {} passed VirusTotal check, proceeding to upload.", file.getName());
-            String remote = currentDir + "/" + file.getName();
-            Task<Void> uploadTask = new Task<>() {
+
+            
+            vtProgress.setVisible(true);
+
+            Task<Boolean> vtTask = new Task<>() {
                 @Override
-                protected Void call() throws Exception {
-                    ChannelSftp channel = null;
-                    try {
-                        channel = (ChannelSftp) client.session.openChannel("sftp");
-                        channel.connect();
-
-                        channel.put(file.getAbsolutePath(), remote, new SftpProgressMonitor() {
-                            private long max = file.length();
-                            private long count = 0;
-
-                            @Override
-                            public void init(int op, String src, String dest, long max) {
-                                updateProgress(0, max);
-                            }
-
-                            @Override
-                            public boolean count(long bytes) {
-                                count += bytes;
-                                updateProgress(count, max);
-                                return true;
-                            }
-
-                            @Override
-                            public void end() {
-                                updateProgress(max, max);
-                            }
-                        });
-                    } finally {
-                        if (channel != null && channel.isConnected()) {
-                            channel.disconnect();
-                        }
-                    }
-                    return null;
+                protected Boolean call() {
+                    return VirusTotalUtil.isFileSafe(file);
                 }
             };
 
-            progressBar.setVisible(true);
-            progressBar.progressProperty().bind(uploadTask.progressProperty());
-            uploadTask.setOnSucceeded(e -> {
-                progressBar.progressProperty().unbind();
-                progressBar.setProgress(0);
-                progressBar.setVisible(false);
-                refreshFileList();
-                showAlert("Upload", "Upload sucessful!", true);
+            vtTask.setOnSucceeded(e -> {
+                vtProgress.setVisible(false);
+                boolean safe = vtTask.getValue();
+                if (!safe) {
+                    logger.warn("Upload blocked: File {} is not safe (VirusTotal detection)", file.getName());
+                    showAlert("Upload", "File is not safe and cannot be uploaded.", false);
+                    return;
+                }
+                logger.info("File {} passed VirusTotal check, proceeding to upload.", file.getName());
+                // ...phần upload như cũ...
+                startUploadTask(file);
             });
-            uploadTask.setOnFailed(e -> {
-                progressBar.progressProperty().unbind();
-                progressBar.setProgress(0);
-                progressBar.setVisible(false);
-                showAlert("Upload", "Upload failed: " + uploadTask.getException().getMessage(), false);
+
+            vtTask.setOnFailed(e -> {
+                vtProgress.setVisible(false);
+                showAlert("Upload", "VirusTotal check failed: " + vtTask.getException().getMessage(), false);
             });
-            new Thread(uploadTask).start();
+
+            new Thread(vtTask).start();
         }
+    }
+
+    // Separate upload task to keep code clean
+    private void startUploadTask(File file) {
+        String remote = currentDir + "/" + file.getName();
+        Task<Void> uploadTask = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                ChannelSftp channel = null;
+                try {
+                    channel = (ChannelSftp) client.session.openChannel("sftp");
+                    channel.connect();
+
+                    channel.put(file.getAbsolutePath(), remote, new SftpProgressMonitor() {
+                        private long max = file.length();
+                        private long count = 0;
+
+                        @Override
+                        public void init(int op, String src, String dest, long max) {
+                            updateProgress(0, max);
+                        }
+
+                        @Override
+                        public boolean count(long bytes) {
+                            count += bytes;
+                            updateProgress(count, max);
+                            return true;
+                        }
+
+                        @Override
+                        public void end() {
+                            updateProgress(max, max);
+                        }
+                    });
+                } finally {
+                    if (channel != null && channel.isConnected()) {
+                        channel.disconnect();
+                    }
+                }
+                return null;
+            }
+        };
+
+        progressBar.setVisible(true);
+        progressBar.progressProperty().bind(uploadTask.progressProperty());
+        uploadTask.setOnSucceeded(e -> {
+            progressBar.progressProperty().unbind();
+            progressBar.setProgress(0);
+            progressBar.setVisible(false);
+            refreshFileList();
+            showAlert("Upload", "Upload successful!", true);
+        });
+        uploadTask.setOnFailed(e -> {
+            progressBar.progressProperty().unbind();
+            progressBar.setProgress(0);
+            progressBar.setVisible(false);
+            showAlert("Upload", "Upload failed: " + uploadTask.getException().getMessage(), false);
+        });
+        new Thread(uploadTask).start();
     }
 
     @FXML
