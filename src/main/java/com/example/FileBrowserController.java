@@ -98,12 +98,14 @@ public class FileBrowserController {
         fileChooser.setTitle("Select file to upload");
         File file = fileChooser.showOpenDialog(fileListView.getScene().getWindow());
         if (file != null) {
+            logger.info("User selected file for upload: {}", file.getAbsolutePath());
             // Check virus before upload
             if (!VirusTotalUtil.isFileSafe(file)) {
+                logger.warn("Upload blocked: File {} is not safe (VirusTotal detection)", file.getName());
                 showAlert("Upload", "File is not safe and cannot be uploaded.", false);
                 return;
             }
-
+            logger.info("File {} passed VirusTotal check, proceeding to upload.", file.getName());
             String remote = currentDir + "/" + file.getName();
             Task<Void> uploadTask = new Task<>() {
                 @Override
@@ -246,7 +248,6 @@ public class FileBrowserController {
             if (selected.endsWith("/")) {
                 try {
                     client.rmdir(currentDir + "/" + selected.replace("/", ""));
-                    statusLabel.setText("Deleted folder: " + selected);
                     logger.info("Deleted folder: {}", selected);
                 } catch (SftpException e) {
                     if (e.id == ChannelSftp.SSH_FX_FAILURE
@@ -276,12 +277,10 @@ public class FileBrowserController {
                 }
             } else {
                 client.rm(currentDir + "/" + selected);
-                statusLabel.setText("Deleted file: " + selected);
                 logger.info("Deleted file: {}", selected);
             }
             refreshFileList();
         } catch (Exception e) {
-            statusLabel.setText("Delete failed: " + e.getMessage());
             logger.error("Delete failed: {}", e.getMessage());
         }
     }
@@ -308,7 +307,6 @@ public class FileBrowserController {
             loginStage.show();
 
         } catch (Exception e) {
-            statusLabel.setText("Failed to logout: " + e.getMessage());
             logger.error("Failed to logout: {}", e.getMessage());
         }
     }

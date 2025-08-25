@@ -224,12 +224,14 @@ public class ShellController {
                             logger.warn("put command usage error: local or remote file not specified");
                         } else {
                             File file = new File(parts[1]);
+                            logger.info("User requested upload for file: {}", file.getAbsolutePath());
                             // Check file safety with VirusTotal
                             if (!VirusTotalUtil.isFileSafe(file)) {
                                 outputArea.appendText("    Error: File is not safe to upload (VirusTotal check failed)\n");
-                                logger.warn("File safety check failed for: {}", parts[1]);
+                                logger.warn("Upload blocked by VirusTotal: {}", file.getName());
                                 return;
                             }
+                            logger.info("File {} passed VirusTotal check, proceeding to upload.", file.getName());
                             outputArea.appendText("    Uploading " + parts[1] + " ...\n");
                             Task<Void> uploadTask = new Task<>() {
                                 @Override
